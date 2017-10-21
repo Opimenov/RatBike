@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2015 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="?android:dividerHorizontal"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:showDividers="middle">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/select_bike_type" />
+
+        <RadioGroup
+            android:id="@+id/type_radiogroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/road_bike_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/road_bike" />
+
+            <RadioButton
+                android:id="@+id/mountain_bike_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/mountain_bike" />
+
+            <RadioButton
+                android:id="@+id/hybrid_bike_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hybrid_bike_comfort" />
+
+            <RadioButton
+                android:id="@+id/cruiser_bike_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cruiser_bike" />
+
+            <RadioButton
+                android:id="@+id/bmx_bike_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/bmx_bike" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/is_this_bike_complete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginRight="@dimen/separator_margin"
+                android:text="@string/is_this_bike_complete"
+                android:textColor="@color/black" />
+
+            <RadioGroup
+                android:id="@+id/yes_no_radiogroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/is_this_bike_complete">
+
+                <RadioButton
+                    android:id="@+id/complete_bike_yes_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/yes" />
+
+                <RadioButton
+                    android:id="@+id/complete_bike_no_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/no" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/parts_list_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/frame_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/frame" />
+
+            <CheckBox
+                android:id="@+id/seat_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/seat" />
+
+            <CheckBox
+                android:id="@+id/front_wheel_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/front_wheel" />
+
+            <CheckBox
+                android:id="@+id/decent_tire_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/decent_tire" />
+
+            <CheckBox
+                android:id="@+id/fork_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/fork" />
+
+            <CheckBox
+                android:id="@+id/stem_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/stem" />
+
+            <CheckBox
+                android:id="@+id/habdlebars_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/handlebar" />
+
+            <CheckBox
+                android:id="@+id/brake_levers_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/brake_levers" />
+
+            <CheckBox
+                android:id="@+id/gear_shifters_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gear_shifters" />
+
+            <CheckBox
+                android:id="@+id/front_brake_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/front_brake" />
+
+            <CheckBox
+                android:id="@+id/pedals_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pedals" />
+
+            <CheckBox
+                android:id="@+id/crank_arms_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/crank_arms" />
+
+            <CheckBox
+                android:id="@+id/front_derailleur_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/front_derailleur" />
+
+            <CheckBox
+                android:id="@+id/chain_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/chain" />
+
+            <CheckBox
+                android:id="@+id/rear_break_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rear_break" />
+
+            <CheckBox
+                android:id="@+id/rear_wheel_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rear_wheel" />
+
+            <CheckBox
+                android:id="@+id/rear_deraolleur_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rear_derailleur" />
+
+            <CheckBox
+                android:id="@+id/cable_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cable" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/separator_margin">
+
+            <TextView
+                android:id="@+id/location_text_view"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/separator_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/click_share_your_location_button" />
+
+            <Button
+                android:id="@+id/share_location_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/locate_me"
+                android:layout_toRightOf="@+id/location_text_view"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>
+

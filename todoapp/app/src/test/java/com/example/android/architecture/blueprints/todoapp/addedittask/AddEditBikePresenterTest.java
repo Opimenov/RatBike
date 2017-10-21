@@ -16,7 +16,7 @@
 
 package com.example.android.architecture.blueprints.todoapp.addedittask;
 
-import com.example.android.architecture.blueprints.todoapp.data.Task;
+import com.example.android.architecture.blueprints.todoapp.data.Bike;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
 
@@ -35,15 +35,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit tests for the implementation of {@link AddEditTaskPresenter}.
+ * Unit tests for the implementation of {@link AddEditBikePresenter}.
  */
-public class AddEditTaskPresenterTest {
+public class AddEditBikePresenterTest {
 
     @Mock
     private TasksRepository mTasksRepository;
 
     @Mock
-    private AddEditTaskContract.View mAddEditTaskView;
+    private AddEditBikeContract.View mAddEditTaskView;
 
     /**
      * {@link ArgumentCaptor} is a powerful Mockito API to capture argument values and use them to
@@ -52,7 +52,7 @@ public class AddEditTaskPresenterTest {
     @Captor
     private ArgumentCaptor<TasksDataSource.GetTaskCallback> mGetTaskCallbackCaptor;
 
-    private AddEditTaskPresenter mAddEditTaskPresenter;
+    private AddEditBikePresenter mAddEditBikePresenter;
 
     @Before
     public void setupMocksAndView() {
@@ -67,73 +67,73 @@ public class AddEditTaskPresenterTest {
     @Test
     public void createPresenter_setsThePresenterToView(){
         // Get a reference to the class under test
-        mAddEditTaskPresenter = new AddEditTaskPresenter(
+        mAddEditBikePresenter = new AddEditBikePresenter(
                 null, mTasksRepository, mAddEditTaskView, true);
 
         // Then the presenter is set to the view
-        verify(mAddEditTaskView).setPresenter(mAddEditTaskPresenter);
+        verify(mAddEditTaskView).setPresenter(mAddEditBikePresenter);
     }
 
     @Test
     public void saveNewTaskToRepository_showsSuccessMessageUi() {
         // Get a reference to the class under test
-        mAddEditTaskPresenter = new AddEditTaskPresenter(
+        mAddEditBikePresenter = new AddEditBikePresenter(
                 null, mTasksRepository, mAddEditTaskView, true);
 
         // When the presenter is asked to save a task
-        mAddEditTaskPresenter.saveTask("New Task Title", "Some Task Description");
+        mAddEditBikePresenter.saveTask("New Bike Title", "Some Bike Description");
 
         // Then a task is saved in the repository and the view updated
-        verify(mTasksRepository).saveTask(any(Task.class)); // saved to the model
-        verify(mAddEditTaskView).showTasksList(); // shown in the UI
+        verify(mTasksRepository).saveTask(any(Bike.class)); // saved to the model
+        verify(mAddEditTaskView).showBikesList(); // shown in the UI
     }
 
     @Test
     public void saveTask_emptyTaskShowsErrorUi() {
         // Get a reference to the class under test
-        mAddEditTaskPresenter = new AddEditTaskPresenter(
+        mAddEditBikePresenter = new AddEditBikePresenter(
                 null, mTasksRepository, mAddEditTaskView, true);
 
         // When the presenter is asked to save an empty task
-        mAddEditTaskPresenter.saveTask("", "");
+        mAddEditBikePresenter.saveTask("", "");
 
         // Then an empty not error is shown in the UI
-        verify(mAddEditTaskView).showEmptyTaskError();
+        verify(mAddEditTaskView).showNoBikeFoundError();
     }
 
     @Test
     public void saveExistingTaskToRepository_showsSuccessMessageUi() {
         // Get a reference to the class under test
-        mAddEditTaskPresenter = new AddEditTaskPresenter(
+        mAddEditBikePresenter = new AddEditBikePresenter(
                 "1", mTasksRepository, mAddEditTaskView, true);
 
         // When the presenter is asked to save an existing task
-        mAddEditTaskPresenter.saveTask("Existing Task Title", "Some Task Description");
+        mAddEditBikePresenter.saveTask("Existing Bike Title", "Some Bike Description");
 
         // Then a task is saved in the repository and the view updated
-        verify(mTasksRepository).saveTask(any(Task.class)); // saved to the model
-        verify(mAddEditTaskView).showTasksList(); // shown in the UI
+        verify(mTasksRepository).saveTask(any(Bike.class)); // saved to the model
+        verify(mAddEditTaskView).showBikesList(); // shown in the UI
     }
 
     @Test
     public void populateTask_callsRepoAndUpdatesView() {
-        Task testTask = new Task("TITLE", "DESCRIPTION");
+        Bike testBike = new Bike("TITLE", "DESCRIPTION");
         // Get a reference to the class under test
-        mAddEditTaskPresenter = new AddEditTaskPresenter(testTask.getId(),
+        mAddEditBikePresenter = new AddEditBikePresenter(testBike.getId(),
                 mTasksRepository, mAddEditTaskView, true);
 
         // When the presenter is asked to populate an existing task
-        mAddEditTaskPresenter.populateTask();
+        mAddEditBikePresenter.populateTask();
 
         // Then the task repository is queried and the view updated
-        verify(mTasksRepository).getTask(eq(testTask.getId()), mGetTaskCallbackCaptor.capture());
-        assertThat(mAddEditTaskPresenter.isDataMissing(), is(true));
+        verify(mTasksRepository).getTask(eq(testBike.getId()), mGetTaskCallbackCaptor.capture());
+        assertThat(mAddEditBikePresenter.isDataMissing(), is(true));
 
         // Simulate callback
-        mGetTaskCallbackCaptor.getValue().onTaskLoaded(testTask);
+        mGetTaskCallbackCaptor.getValue().onTaskLoaded(testBike);
 
-        verify(mAddEditTaskView).setTitle(testTask.getTitle());
-        verify(mAddEditTaskView).setDescription(testTask.getDescription());
-        assertThat(mAddEditTaskPresenter.isDataMissing(), is(false));
+        verify(mAddEditTaskView).setTitle(testBike.getTitle());
+        verify(mAddEditTaskView).setDescription(testBike.getDescription());
+        assertThat(mAddEditBikePresenter.isDataMissing(), is(false));
     }
 }

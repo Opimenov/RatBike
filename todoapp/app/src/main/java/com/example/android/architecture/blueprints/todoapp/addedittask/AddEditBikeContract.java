@@ -16,32 +16,39 @@
 
 package com.example.android.architecture.blueprints.todoapp.addedittask;
 
+import android.graphics.Bitmap;
+
 import com.example.android.architecture.blueprints.todoapp.BasePresenter;
 import com.example.android.architecture.blueprints.todoapp.BaseView;
 
 /**
  * This specifies the contract between the view and the presenter.
  */
-public interface AddEditTaskContract {
+public interface AddEditBikeContract {
 
     interface View extends BaseView<Presenter> {
 
-        void showEmptyTaskError();
+        void showNoBikeFoundError();
 
-        void showTasksList();
+        void showBikesList();
 
-        void setTitle(String title);
+        void setLocation(String location);
 
-        void setDescription(String description);
+        void setPicture(Bitmap image);
 
-        boolean isActive();
+        boolean isComplete();
     }
 
     interface Presenter extends BasePresenter {
 
-        void saveTask(String title, String description);
+        void saveBike(
+                Bitmap image,
+                String type,
+                String location,
+                boolean[] parts,
+                boolean complete);
 
-        void populateTask();
+        void populateBike();
 
         boolean isDataMissing();
     }

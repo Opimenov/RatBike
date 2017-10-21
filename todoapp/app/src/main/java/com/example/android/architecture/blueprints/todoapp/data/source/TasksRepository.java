@@ -21,7 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.example.android.architecture.blueprints.todoapp.data.Task;
+import com.example.android.architecture.blueprints.todoapp.data.Bike;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -47,7 +47,7 @@ public class TasksRepository implements TasksDataSource {
     /**
      * This variable has package local visibility so it can be accessed from tests.
      */
-    Map<String, Task> mCachedTasks;
+    Map<String, Bike> mCachedTasks;
 
     /**
      * Marks the cache as invalid, to force an update the next time data is requested. This variable
@@ -109,8 +109,8 @@ public class TasksRepository implements TasksDataSource {
             // Query the local storage if available. If not, query the network.
             mTasksLocalDataSource.getTasks(new LoadTasksCallback() {
                 @Override
-                public void onTasksLoaded(List<Task> tasks) {
-                    refreshCache(tasks);
+                public void onTasksLoaded(List<Bike> bikes) {
+                    refreshCache(bikes);
                     callback.onTasksLoaded(new ArrayList<>(mCachedTasks.values()));
                 }
 
@@ -123,31 +123,31 @@ public class TasksRepository implements TasksDataSource {
     }
 
     @Override
-    public void saveTask(@NonNull Task task) {
-        checkNotNull(task);
-        mTasksRemoteDataSource.saveTask(task);
-        mTasksLocalDataSource.saveTask(task);
+    public void saveTask(@NonNull Bike bike) {
+        checkNotNull(bike);
+        mTasksRemoteDataSource.saveTask(bike);
+        mTasksLocalDataSource.saveTask(bike);
 
         // Do in memory cache update to keep the app UI up to date
         if (mCachedTasks == null) {
             mCachedTasks = new LinkedHashMap<>();
         }
-        mCachedTasks.put(task.getId(), task);
+        mCachedTasks.put(bike.getId(), bike);
     }
 
     @Override
-    public void completeTask(@NonNull Task task) {
-        checkNotNull(task);
-        mTasksRemoteDataSource.completeTask(task);
-        mTasksLocalDataSource.completeTask(task);
+    public void completeTask(@NonNull Bike bike) {
+        checkNotNull(bike);
+        mTasksRemoteDataSource.completeTask(bike);
+        mTasksLocalDataSource.completeTask(bike);
 
-        Task completedTask = new Task(task.getTitle(), task.getDescription(), task.getId(), true);
+        Bike completedBike = new Bike(bike.getTitle(), bike.getDescription(), bike.getId(), true);
 
         // Do in memory cache update to keep the app UI up to date
         if (mCachedTasks == null) {
             mCachedTasks = new LinkedHashMap<>();
         }
-        mCachedTasks.put(task.getId(), completedTask);
+        mCachedTasks.put(bike.getId(), completedBike);
     }
 
     @Override
@@ -157,18 +157,18 @@ public class TasksRepository implements TasksDataSource {
     }
 
     @Override
-    public void activateTask(@NonNull Task task) {
-        checkNotNull(task);
-        mTasksRemoteDataSource.activateTask(task);
-        mTasksLocalDataSource.activateTask(task);
+    public void activateTask(@NonNull Bike bike) {
+        checkNotNull(bike);
+        mTasksRemoteDataSource.activateTask(bike);
+        mTasksLocalDataSource.activateTask(bike);
 
-        Task activeTask = new Task(task.getTitle(), task.getDescription(), task.getId());
+        Bike activeBike = new Bike(bike.getTitle(), bike.getDescription(), bike.getId());
 
         // Do in memory cache update to keep the app UI up to date
         if (mCachedTasks == null) {
             mCachedTasks = new LinkedHashMap<>();
         }
-        mCachedTasks.put(task.getId(), activeTask);
+        mCachedTasks.put(bike.getId(), activeBike);
     }
 
     @Override
@@ -186,9 +186,9 @@ public class TasksRepository implements TasksDataSource {
         if (mCachedTasks == null) {
             mCachedTasks = new LinkedHashMap<>();
         }
-        Iterator<Map.Entry<String, Task>> it = mCachedTasks.entrySet().iterator();
+        Iterator<Map.Entry<String, Bike>> it = mCachedTasks.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry<String, Task> entry = it.next();
+            Map.Entry<String, Bike> entry = it.next();
             if (entry.getValue().isCompleted()) {
                 it.remove();
             }
@@ -207,11 +207,11 @@ public class TasksRepository implements TasksDataSource {
         checkNotNull(taskId);
         checkNotNull(callback);
 
-        Task cachedTask = getTaskWithId(taskId);
+        Bike cachedBike = getTaskWithId(taskId);
 
         // Respond immediately with cache if available
-        if (cachedTask != null) {
-            callback.onTaskLoaded(cachedTask);
+        if (cachedBike != null) {
+            callback.onTaskLoaded(cachedBike);
             return;
         }
 
@@ -220,26 +220,26 @@ public class TasksRepository implements TasksDataSource {
         // Is the task in the local data source? If not, query the network.
         mTasksLocalDataSource.getTask(taskId, new GetTaskCallback() {
             @Override
-            public void onTaskLoaded(Task task) {
+            public void onTaskLoaded(Bike bike) {
                 // Do in memory cache update to keep the app UI up to date
                 if (mCachedTasks == null) {
                     mCachedTasks = new LinkedHashMap<>();
                 }
-                mCachedTasks.put(task.getId(), task);
-                callback.onTaskLoaded(task);
+                mCachedTasks.put(bike.getId(), bike);
+                callback.onTaskLoaded(bike);
             }
 
             @Override
             public void onDataNotAvailable() {
                 mTasksRemoteDataSource.getTask(taskId, new GetTaskCallback() {
                     @Override
-                    public void onTaskLoaded(Task task) {
+                    public void onTaskLoaded(Bike bike) {
                         // Do in memory cache update to keep the app UI up to date
                         if (mCachedTasks == null) {
                             mCachedTasks = new LinkedHashMap<>();
                         }
-                        mCachedTasks.put(task.getId(), task);
-                        callback.onTaskLoaded(task);
+                        mCachedTasks.put(bike.getId(), bike);
+                        callback.onTaskLoaded(bike);
                     }
 
                     @Override
@@ -278,9 +278,9 @@ public class TasksRepository implements TasksDataSource {
     private void getTasksFromRemoteDataSource(@NonNull final LoadTasksCallback callback) {
         mTasksRemoteDataSource.getTasks(new LoadTasksCallback() {
             @Override
-            public void onTasksLoaded(List<Task> tasks) {
-                refreshCache(tasks);
-                refreshLocalDataSource(tasks);
+            public void onTasksLoaded(List<Bike> bikes) {
+                refreshCache(bikes);
+                refreshLocalDataSource(bikes);
                 callback.onTasksLoaded(new ArrayList<>(mCachedTasks.values()));
             }
 
@@ -291,26 +291,26 @@ public class TasksRepository implements TasksDataSource {
         });
     }
 
-    private void refreshCache(List<Task> tasks) {
+    private void refreshCache(List<Bike> bikes) {
         if (mCachedTasks == null) {
             mCachedTasks = new LinkedHashMap<>();
         }
         mCachedTasks.clear();
-        for (Task task : tasks) {
-            mCachedTasks.put(task.getId(), task);
+        for (Bike bike : bikes) {
+            mCachedTasks.put(bike.getId(), bike);
         }
         mCacheIsDirty = false;
     }
 
-    private void refreshLocalDataSource(List<Task> tasks) {
+    private void refreshLocalDataSource(List<Bike> bikes) {
         mTasksLocalDataSource.deleteAllTasks();
-        for (Task task : tasks) {
-            mTasksLocalDataSource.saveTask(task);
+        for (Bike bike : bikes) {
+            mTasksLocalDataSource.saveTask(bike);
         }
     }
 
     @Nullable
-    private Task getTaskWithId(@NonNull String id) {
+    private Bike getTaskWithId(@NonNull String id) {
         checkNotNull(id);
         if (mCachedTasks == null || mCachedTasks.isEmpty()) {
             return null;

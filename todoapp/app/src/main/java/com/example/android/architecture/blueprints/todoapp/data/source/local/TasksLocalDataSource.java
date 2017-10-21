@@ -22,7 +22,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
-import com.example.android.architecture.blueprints.todoapp.data.Task;
+import com.example.android.architecture.blueprints.todoapp.data.Bike;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
 import com.example.android.architecture.blueprints.todoapp.data.source.local.TasksPersistenceContract.TaskEntry;
 
@@ -60,7 +60,7 @@ public class TasksLocalDataSource implements TasksDataSource {
      */
     @Override
     public void getTasks(@NonNull LoadTasksCallback callback) {
-        List<Task> tasks = new ArrayList<Task>();
+        List<Bike> bikes = new ArrayList<Bike>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
@@ -81,8 +81,8 @@ public class TasksLocalDataSource implements TasksDataSource {
                         c.getString(c.getColumnIndexOrThrow(TaskEntry.COLUMN_NAME_DESCRIPTION));
                 boolean completed =
                         c.getInt(c.getColumnIndexOrThrow(TaskEntry.COLUMN_NAME_COMPLETED)) == 1;
-                Task task = new Task(title, description, itemId, completed);
-                tasks.add(task);
+                Bike bike = new Bike(title, description, itemId, completed);
+                bikes.add(bike);
             }
         }
         if (c != null) {
@@ -91,17 +91,17 @@ public class TasksLocalDataSource implements TasksDataSource {
 
         db.close();
 
-        if (tasks.isEmpty()) {
+        if (bikes.isEmpty()) {
             // This will be called if the table is new or just empty.
             callback.onDataNotAvailable();
         } else {
-            callback.onTasksLoaded(tasks);
+            callback.onTasksLoaded(bikes);
         }
 
     }
 
     /**
-     * Note: {@link GetTaskCallback#onDataNotAvailable()} is fired if the {@link Task} isn't
+     * Note: {@link GetTaskCallback#onDataNotAvailable()} is fired if the {@link Bike} isn't
      * found.
      */
     @Override
@@ -121,7 +121,7 @@ public class TasksLocalDataSource implements TasksDataSource {
         Cursor c = db.query(
                 TaskEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
-        Task task = null;
+        Bike bike = null;
 
         if (c != null && c.getCount() > 0) {
             c.moveToFirst();
@@ -131,7 +131,7 @@ public class TasksLocalDataSource implements TasksDataSource {
                     c.getString(c.getColumnIndexOrThrow(TaskEntry.COLUMN_NAME_DESCRIPTION));
             boolean completed =
                     c.getInt(c.getColumnIndexOrThrow(TaskEntry.COLUMN_NAME_COMPLETED)) == 1;
-            task = new Task(title, description, itemId, completed);
+            bike = new Bike(title, description, itemId, completed);
         }
         if (c != null) {
             c.close();
@@ -139,23 +139,23 @@ public class TasksLocalDataSource implements TasksDataSource {
 
         db.close();
 
-        if (task != null) {
-            callback.onTaskLoaded(task);
+        if (bike != null) {
+            callback.onTaskLoaded(bike);
         } else {
             callback.onDataNotAvailable();
         }
     }
 
     @Override
-    public void saveTask(@NonNull Task task) {
-        checkNotNull(task);
+    public void saveTask(@NonNull Bike bike) {
+        checkNotNull(bike);
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(TaskEntry.COLUMN_NAME_ENTRY_ID, task.getId());
-        values.put(TaskEntry.COLUMN_NAME_TITLE, task.getTitle());
-        values.put(TaskEntry.COLUMN_NAME_DESCRIPTION, task.getDescription());
-        values.put(TaskEntry.COLUMN_NAME_COMPLETED, task.isCompleted());
+        values.put(TaskEntry.COLUMN_NAME_ENTRY_ID, bike.getId());
+        values.put(TaskEntry.COLUMN_NAME_TITLE, bike.getTitle());
+        values.put(TaskEntry.COLUMN_NAME_DESCRIPTION, bike.getDescription());
+        values.put(TaskEntry.COLUMN_NAME_COMPLETED, bike.isCompleted());
 
         db.insert(TaskEntry.TABLE_NAME, null, values);
 
@@ -163,14 +163,14 @@ public class TasksLocalDataSource implements TasksDataSource {
     }
 
     @Override
-    public void completeTask(@NonNull Task task) {
+    public void completeTask(@NonNull Bike bike) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(TaskEntry.COLUMN_NAME_COMPLETED, true);
 
         String selection = TaskEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
-        String[] selectionArgs = { task.getId() };
+        String[] selectionArgs = { bike.getId() };
 
         db.update(TaskEntry.TABLE_NAME, values, selection, selectionArgs);
 
@@ -184,14 +184,14 @@ public class TasksLocalDataSource implements TasksDataSource {
     }
 
     @Override
-    public void activateTask(@NonNull Task task) {
+    public void activateTask(@NonNull Bike bike) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(TaskEntry.COLUMN_NAME_COMPLETED, false);
 
         String selection = TaskEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
-        String[] selectionArgs = { task.getId() };
+        String[] selectionArgs = { bike.getId() };
 
         db.update(TaskEntry.TABLE_NAME, values, selection, selectionArgs);
 

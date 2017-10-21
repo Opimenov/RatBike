@@ -19,7 +19,7 @@ package com.example.android.architecture.blueprints.todoapp.taskdetail;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.example.android.architecture.blueprints.todoapp.data.Task;
+import com.example.android.architecture.blueprints.todoapp.data.Bike;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
 import com.google.common.base.Strings;
@@ -63,16 +63,16 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
         mTaskDetailView.setLoadingIndicator(true);
         mTasksRepository.getTask(mTaskId, new TasksDataSource.GetTaskCallback() {
             @Override
-            public void onTaskLoaded(Task task) {
+            public void onTaskLoaded(Bike bike) {
                 // The view may not be able to handle UI updates anymore
                 if (!mTaskDetailView.isActive()) {
                     return;
                 }
                 mTaskDetailView.setLoadingIndicator(false);
-                if (null == task) {
+                if (null == bike) {
                     mTaskDetailView.showMissingTask();
                 } else {
-                    showTask(task);
+                    showTask(bike);
                 }
             }
 
@@ -126,9 +126,9 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
         mTaskDetailView.showTaskMarkedActive();
     }
 
-    private void showTask(@NonNull Task task) {
-        String title = task.getTitle();
-        String description = task.getDescription();
+    private void showTask(@NonNull Bike bike) {
+        String title = bike.getTitle();
+        String description = bike.getDescription();
 
         if (Strings.isNullOrEmpty(title)) {
             mTaskDetailView.hideTitle();
@@ -141,6 +141,6 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
         } else {
             mTaskDetailView.showDescription(description);
         }
-        mTaskDetailView.showCompletionStatus(task.isCompleted());
+        mTaskDetailView.showCompletionStatus(bike.isCompleted());
     }
 }

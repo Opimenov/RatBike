@@ -19,23 +19,23 @@ package com.example.android.architecture.blueprints.todoapp.addedittask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.example.android.architecture.blueprints.todoapp.data.Task;
+import com.example.android.architecture.blueprints.todoapp.data.Bike;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Listens to user actions from the UI ({@link AddEditTaskFragment}), retrieves the data and updates
+ * Listens to user actions from the UI ({@link AddEditBikeFragment}), retrieves the data and updates
  * the UI as required.
  */
-public class AddEditTaskPresenter implements AddEditTaskContract.Presenter,
+public class AddEditBikePresenter implements AddEditBikeContract.Presenter,
         TasksDataSource.GetTaskCallback {
 
     @NonNull
     private final TasksDataSource mTasksRepository;
 
     @NonNull
-    private final AddEditTaskContract.View mAddTaskView;
+    private final AddEditBikeContract.View mAddTaskView;
 
     @Nullable
     private String mTaskId;
@@ -50,8 +50,8 @@ public class AddEditTaskPresenter implements AddEditTaskContract.Presenter,
      * @param addTaskView the add/edit view
      * @param shouldLoadDataFromRepo whether data needs to be loaded or not (for config changes)
      */
-    public AddEditTaskPresenter(@Nullable String taskId, @NonNull TasksDataSource tasksRepository,
-            @NonNull AddEditTaskContract.View addTaskView, boolean shouldLoadDataFromRepo) {
+    public AddEditBikePresenter(@Nullable String taskId, @NonNull TasksDataSource tasksRepository,
+                                @NonNull AddEditBikeContract.View addTaskView, boolean shouldLoadDataFromRepo) {
         mTaskId = taskId;
         mTasksRepository = checkNotNull(tasksRepository);
         mAddTaskView = checkNotNull(addTaskView);
@@ -85,11 +85,11 @@ public class AddEditTaskPresenter implements AddEditTaskContract.Presenter,
     }
 
     @Override
-    public void onTaskLoaded(Task task) {
+    public void onTaskLoaded(Bike bike) {
         // The view may not be able to handle UI updates anymore
         if (mAddTaskView.isActive()) {
-            mAddTaskView.setTitle(task.getTitle());
-            mAddTaskView.setDescription(task.getDescription());
+            mAddTaskView.setTitle(bike.getTitle());
+            mAddTaskView.setDescription(bike.getDescription());
         }
         mIsDataMissing = false;
     }
@@ -98,7 +98,7 @@ public class AddEditTaskPresenter implements AddEditTaskContract.Presenter,
     public void onDataNotAvailable() {
         // The view may not be able to handle UI updates anymore
         if (mAddTaskView.isActive()) {
-            mAddTaskView.showEmptyTaskError();
+            mAddTaskView.showNoBikeFoundError();
         }
     }
 
@@ -112,12 +112,12 @@ public class AddEditTaskPresenter implements AddEditTaskContract.Presenter,
     }
 
     private void createTask(String title, String description) {
-        Task newTask = new Task(title, description);
-        if (newTask.isEmpty()) {
-            mAddTaskView.showEmptyTaskError();
+        Bike newBike = new Bike(title, description);
+        if (newBike.isEmpty()) {
+            mAddTaskView.showNoBikeFoundError();
         } else {
-            mTasksRepository.saveTask(newTask);
-            mAddTaskView.showTasksList();
+            mTasksRepository.saveTask(newBike);
+            mAddTaskView.showBikesList();
         }
     }
 
@@ -125,7 +125,7 @@ public class AddEditTaskPresenter implements AddEditTaskContract.Presenter,
         if (isNewTask()) {
             throw new RuntimeException("updateTask() was called but task is new.");
         }
-        mTasksRepository.saveTask(new Task(title, description, mTaskId));
-        mAddTaskView.showTasksList(); // After an edit, go back to the list.
+        mTasksRepository.saveTask(new Bike(title, description, mTaskId));
+        mAddTaskView.showBikesList(); // After an edit, go back to the list.
     }
 }

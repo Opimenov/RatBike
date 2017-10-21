@@ -15,29 +15,60 @@
   -->
 
 <resources>
-    <string name="app_name">TO-DO-MVP</string>
-    <string name="add_task">New TO-DO</string>
-    <string name="edit_task">Edit TO-DO</string>
+    <string name="app_name">RatBike</string>
+    <string name="add_bike">New Abandoned Bike</string>
+    <string name="edit_bike">Edit Abandoned Bike</string>
     <string name="task_marked_complete">Task marked complete</string>
     <string name="task_marked_active">Task marked active</string>
-    <string name="loading_tasks_error">Error while loading tasks</string>
-    <string name="completed_tasks_cleared">Completed tasks cleared</string>
+    <string name="loading_tasks_error">Error while loading bikes</string>
+    <string name="completed_tasks_cleared">Completed bikes cleared</string>
     <string name="menu_filter">Filter</string>
     <string name="menu_clear">Clear completed</string>
-    <string name="menu_delete_task">Delete task</string>
-    <string name="navigation_view_header_title">TO-DOs</string>
+    <string name="menu_delete_task">Delete bike</string>
+    <string name="navigation_view_header_title">Available Bikes</string>
     <string name="title_hint">Title</string>
     <string name="description_hint">Enter your TO-DO here.</string>
-    <string name="empty_task_message">TO DOs cannot be empty</string>
+    <string name="empty_bike_message">Please set location, take picture, select bike type, and parts available</string>
     <string name="successfully_saved_task_message">TO-DO saved</string>
     <string name="list_title">TO-DO List</string>
     <string name="statistics_title">Statistics</string>
-    <string name="statistics_no_tasks">You have no tasks.</string>
-    <string name="statistics_active_tasks">Active tasks:</string>
-    <string name="statistics_completed_tasks">Completed tasks:</string>
+    <string name="statistics_no_tasks">You have no bikes.</string>
+    <string name="statistics_active_tasks">Active bikes:</string>
+    <string name="statistics_completed_tasks">Completed bikes:</string>
     <string name="statistics_error">Error loading statistics.</string>
     <string name="no_data">No data</string>
     <string name="loading">LOADING</string>
+
+    <!--    bike parts list    -->
+    <string name="frame">Frame</string>
+    <string name="seat">Seat</string>
+    <string name="front_wheel">Front Wheel</string>
+    <string name="decent_tire">Decent Tire</string>
+    <string name="fork">Fork</string>
+    <string name="stem">Stem</string>
+    <string name="handlebar">Handlebar</string>
+    <string name="brake_levers">Brake Levers</string>
+    <string name="gear_shifters">Gear Shifters</string>
+    <string name="front_brake">Front Brake</string>
+    <string name="pedals">Pedals</string>
+    <string name="crank_arms">Crank Arms</string>
+    <string name="front_derailleur">Front Derailleur</string>
+    <string name="chain">Chain</string>
+    <string name="rear_break">Rear Break</string>
+    <string name="rear_wheel">Rear Wheel</string>
+    <string name="rear_derailleur">Rear Derailleur</string>
+    <string name="cable">Derailleur or Brake Cable</string>
+    <!--    bike parts list    -->
+
+
+
+
+    <string name="road_bike">Road</string>
+    <string name="mountain_bike">Mountain</string>
+    <string name="hybrid_bike_comfort">Hybrid or Comfort</string>
+    <string name="cruiser_bike">Cruiser</string>
+    <string name="bmx_bike">BMX</string>
+    <string name="complete_bike">Complete Bike</string>
 
     <string-array name="list_tasks_array">
         <item>@string/nav_all</item>
@@ -55,5 +86,11 @@
     <string name="no_tasks_completed">You have no completed TO-DOs!</string>
     <string name="no_tasks_add">Add a TO-DO item +</string>
     <string name="refresh">Refresh</string>
+    <string name="select_bike_type">Select bike type :</string>
+    <string name="is_this_bike_complete">Is this bike complete?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="click_share_your_location_button">Click share your location button</string>
+    <string name="locate_me">Locate me</string>
 
 </resources>

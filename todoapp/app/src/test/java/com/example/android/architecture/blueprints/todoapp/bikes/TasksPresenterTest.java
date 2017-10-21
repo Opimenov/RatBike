@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.tasks;
+package com.example.android.architecture.blueprints.todoapp.bikes;
 
-import com.example.android.architecture.blueprints.todoapp.data.Task;
+import com.example.android.architecture.blueprints.todoapp.data.Bike;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource.LoadTasksCallback;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
 import com.google.common.collect.Lists;
@@ -42,7 +42,7 @@ import static org.mockito.Mockito.when;
  */
 public class TasksPresenterTest {
 
-    private static List<Task> TASKS;
+    private static List<Bike> BIKES;
 
     @Mock
     private TasksRepository mTasksRepository;
@@ -72,8 +72,8 @@ public class TasksPresenterTest {
         when(mTasksView.isActive()).thenReturn(true);
 
         // We start the tasks to 3, with one active and two completed
-        TASKS = Lists.newArrayList(new Task("Title1", "Description1"),
-                new Task("Title2", "Description2", true), new Task("Title3", "Description3", true));
+        BIKES = Lists.newArrayList(new Bike("Title1", "Description1"),
+                new Bike("Title2", "Description2", true), new Bike("Title3", "Description3", true));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class TasksPresenterTest {
 
         // Callback is captured and invoked with stubbed tasks
         verify(mTasksRepository).getTasks(mLoadTasksCallbackCaptor.capture());
-        mLoadTasksCallbackCaptor.getValue().onTasksLoaded(TASKS);
+        mLoadTasksCallbackCaptor.getValue().onTasksLoaded(BIKES);
 
         // Then progress indicator is shown
         InOrder inOrder = inOrder(mTasksView);
@@ -115,7 +115,7 @@ public class TasksPresenterTest {
 
         // Callback is captured and invoked with stubbed tasks
         verify(mTasksRepository).getTasks(mLoadTasksCallbackCaptor.capture());
-        mLoadTasksCallbackCaptor.getValue().onTasksLoaded(TASKS);
+        mLoadTasksCallbackCaptor.getValue().onTasksLoaded(BIKES);
 
         // Then progress indicator is hidden and active tasks are shown in UI
         verify(mTasksView).setLoadingIndicator(false);
@@ -133,7 +133,7 @@ public class TasksPresenterTest {
 
         // Callback is captured and invoked with stubbed tasks
         verify(mTasksRepository).getTasks(mLoadTasksCallbackCaptor.capture());
-        mLoadTasksCallbackCaptor.getValue().onTasksLoaded(TASKS);
+        mLoadTasksCallbackCaptor.getValue().onTasksLoaded(BIKES);
 
         // Then progress indicator is hidden and completed tasks are shown in UI
         verify(mTasksView).setLoadingIndicator(false);
@@ -154,10 +154,10 @@ public class TasksPresenterTest {
     @Test
     public void clickOnTask_ShowsDetailUi() {
         // Given a stubbed active task
-        Task requestedTask = new Task("Details Requested", "For this task");
+        Bike requestedBike = new Bike("Details Requested", "For this task");
 
         // When open task details is requested
-        mTasksPresenter.openTaskDetails(requestedTask);
+        mTasksPresenter.openTaskDetails(requestedBike);
 
         // Then task detail UI is shown
         verify(mTasksView).showTaskDetailsUi(any(String.class));
@@ -165,28 +165,28 @@ public class TasksPresenterTest {
 
     @Test
     public void completeTask_ShowsTaskMarkedComplete() {
-        // Given a stubbed task
-        Task task = new Task("Details Requested", "For this task");
+        // Given a stubbed bike
+        Bike bike = new Bike("Details Requested", "For this bike");
 
-        // When task is marked as complete
-        mTasksPresenter.completeTask(task);
+        // When bike is marked as complete
+        mTasksPresenter.completeTask(bike);
 
-        // Then repository is called and task marked complete UI is shown
-        verify(mTasksRepository).completeTask(task);
+        // Then repository is called and bike marked complete UI is shown
+        verify(mTasksRepository).completeTask(bike);
         verify(mTasksView).showTaskMarkedComplete();
     }
 
     @Test
     public void activateTask_ShowsTaskMarkedActive() {
-        // Given a stubbed completed task
-        Task task = new Task("Details Requested", "For this task", true);
+        // Given a stubbed completed bike
+        Bike bike = new Bike("Details Requested", "For this bike", true);
         mTasksPresenter.loadTasks(true);
 
-        // When task is marked as activated
-        mTasksPresenter.activateTask(task);
+        // When bike is marked as activated
+        mTasksPresenter.activateTask(bike);
 
-        // Then repository is called and task marked active UI is shown
-        verify(mTasksRepository).activateTask(task);
+        // Then repository is called and bike marked active UI is shown
+        verify(mTasksRepository).activateTask(bike);
         verify(mTasksView).showTaskMarkedActive();
     }
 

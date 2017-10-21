@@ -16,7 +16,7 @@
 
 package com.example.android.architecture.blueprints.todoapp.statistics;
 
-import com.example.android.architecture.blueprints.todoapp.data.Task;
+import com.example.android.architecture.blueprints.todoapp.data.Bike;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
 import com.google.common.collect.Lists;
@@ -38,7 +38,7 @@ import static org.mockito.Mockito.when;
  */
 public class StatisticsPresenterTest {
 
-    private static List<Task> TASKS;
+    private static List<Bike> BIKES;
 
     @Mock
     private TasksRepository mTasksRepository;
@@ -69,8 +69,8 @@ public class StatisticsPresenterTest {
         when(mStatisticsView.isActive()).thenReturn(true);
 
         // We start the tasks to 3, with one active and two completed
-        TASKS = Lists.newArrayList(new Task("Title1", "Description1"),
-                new Task("Title2", "Description2", true), new Task("Title3", "Description3", true));
+        BIKES = Lists.newArrayList(new Bike("Title1", "Description1"),
+                new Bike("Title2", "Description2", true), new Bike("Title3", "Description3", true));
     }
 
     @Test
@@ -85,7 +85,7 @@ public class StatisticsPresenterTest {
     @Test
     public void loadEmptyTasksFromRepository_CallViewToDisplay() {
         // Given an initialized StatisticsPresenter with no tasks
-        TASKS.clear();
+        BIKES.clear();
 
         // When loading of Tasks is requested
         mStatisticsPresenter.start();
@@ -95,7 +95,7 @@ public class StatisticsPresenterTest {
 
         // Callback is captured and invoked with stubbed tasks
         verify(mTasksRepository).getTasks(mLoadTasksCallbackCaptor.capture());
-        mLoadTasksCallbackCaptor.getValue().onTasksLoaded(TASKS);
+        mLoadTasksCallbackCaptor.getValue().onTasksLoaded(BIKES);
 
         // Then progress indicator is hidden and correct data is passed on to the view
         verify(mStatisticsView).setProgressIndicator(false);
@@ -114,7 +114,7 @@ public class StatisticsPresenterTest {
 
         // Callback is captured and invoked with stubbed tasks
         verify(mTasksRepository).getTasks(mLoadTasksCallbackCaptor.capture());
-        mLoadTasksCallbackCaptor.getValue().onTasksLoaded(TASKS);
+        mLoadTasksCallbackCaptor.getValue().onTasksLoaded(BIKES);
 
         // Then progress indicator is hidden and correct data is passed on to the view
         verify(mStatisticsView).setProgressIndicator(false);

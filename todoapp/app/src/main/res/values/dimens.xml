@@ -22,5 +22,8 @@
     <dimen name="list_item_padding">8dp</dimen>
 
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="separator_margin">16dp</dimen>
+    <dimen name="separator_thickness">3dp</dimen>
+    <dimen name="checkbox_row">32dp</dimen>
 
 </resources>

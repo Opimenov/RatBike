@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.tasks;
+package com.example.android.architecture.blueprints.todoapp.bikes;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +26,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.android.architecture.blueprints.todoapp.Injection;
@@ -35,6 +36,7 @@ import com.example.android.architecture.blueprints.todoapp.util.ActivityUtils;
 import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource;
 
 public class TasksActivity extends AppCompatActivity {
+    private static final String TAG = "..TAG..";
 
     private static final String CURRENT_FILTERING_KEY = "CURRENT_FILTERING_KEY";
 
@@ -51,7 +53,11 @@ public class TasksActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+        try {
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+        } catch (NullPointerException e) {
+            Log.i(TAG, "onCreate: NPE got thrown");
+        }
         ab.setDisplayHomeAsUpEnabled(true);
 
         // Set up the navigation drawer.

@@ -24,8 +24,8 @@ import android.support.test.filters.LargeTest;
 
 import com.example.android.architecture.blueprints.todoapp.R;
 import com.example.android.architecture.blueprints.todoapp.TestUtils;
+import com.example.android.architecture.blueprints.todoapp.data.Bike;
 import com.example.android.architecture.blueprints.todoapp.data.FakeTasksRemoteDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.Task;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
 
 import org.junit.Rule;
@@ -45,21 +45,21 @@ import static org.hamcrest.core.IsNot.not;
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class TaskDetailScreenTest {
+public class BikeDetailScreenTest {
 
     private static String TASK_TITLE = "ATSL";
 
     private static String TASK_DESCRIPTION = "Rocks";
 
     /**
-     * {@link Task} stub that is added to the fake service API layer.
+     * {@link Bike} stub that is added to the fake service API layer.
      */
-    private static Task ACTIVE_TASK = new Task(TASK_TITLE, TASK_DESCRIPTION, false);
+    private static Bike ACTIVE_BIKE = new Bike(TASK_TITLE, TASK_DESCRIPTION, false);
 
     /**
-     * {@link Task} stub that is added to the fake service API layer.
+     * {@link Bike} stub that is added to the fake service API layer.
      */
-    private static Task COMPLETED_TASK = new Task(TASK_TITLE, TASK_DESCRIPTION, true);
+    private static Bike COOMPLETE_BIKE = new Bike(TASK_TITLE, TASK_DESCRIPTION, true);
 
     /**
      * {@link ActivityTestRule} is a JUnit {@link Rule @Rule} to launch your activity under test.
@@ -79,30 +79,30 @@ public class TaskDetailScreenTest {
                     false /* Lazily launch activity */);
 
     private void loadActiveTask() {
-        startActivityWithWithStubbedTask(ACTIVE_TASK);
+        startActivityWithWithStubbedTask(ACTIVE_BIKE);
     }
 
     private void loadCompletedTask() {
-        startActivityWithWithStubbedTask(COMPLETED_TASK);
+        startActivityWithWithStubbedTask(COOMPLETE_BIKE);
     }
 
     /**
-     * Setup your test fixture with a fake task id. The {@link TaskDetailActivity} is started with
-     * a particular task id, which is then loaded from the service API.
+     * Setup your test fixture with a fake bike id. The {@link TaskDetailActivity} is started with
+     * a particular bike id, which is then loaded from the service API.
      *
      * <p>
      * Note that this test runs hermetically and is fully isolated using a fake implementation of
      * the service API. This is a great way to make your tests more reliable and faster at the same
      * time, since they are isolated from any outside dependencies.
      */
-    private void startActivityWithWithStubbedTask(Task task) {
-        // Add a task stub to the fake service api layer.
+    private void startActivityWithWithStubbedTask(Bike bike) {
+        // Add a bike stub to the fake service api layer.
         TasksRepository.destroyInstance();
-        FakeTasksRemoteDataSource.getInstance().addTasks(task);
+        FakeTasksRemoteDataSource.getInstance().addTasks(bike);
 
         // Lazily start the Activity from the ActivityTestRule this time to inject the start Intent
         Intent startIntent = new Intent();
-        startIntent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, task.getId());
+        startIntent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, bike.getId());
         mTaskDetailActivityTestRule.launchActivity(startIntent);
     }
 

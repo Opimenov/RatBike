@@ -19,7 +19,7 @@ package com.example.android.architecture.blueprints.todoapp.data.source.remote;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
-import com.example.android.architecture.blueprints.todoapp.data.Task;
+import com.example.android.architecture.blueprints.todoapp.data.Bike;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
 import com.google.common.collect.Lists;
 
@@ -36,7 +36,7 @@ public class TasksRemoteDataSource implements TasksDataSource {
 
     private static final int SERVICE_LATENCY_IN_MILLIS = 5000;
 
-    private final static Map<String, Task> TASKS_SERVICE_DATA;
+    private final static Map<String, Bike> TASKS_SERVICE_DATA;
 
     static {
         TASKS_SERVICE_DATA = new LinkedHashMap<>(2);
@@ -55,8 +55,8 @@ public class TasksRemoteDataSource implements TasksDataSource {
     private TasksRemoteDataSource() {}
 
     private static void addTask(String title, String description) {
-        Task newTask = new Task(title, description);
-        TASKS_SERVICE_DATA.put(newTask.getId(), newTask);
+        Bike newBike = new Bike(title, description);
+        TASKS_SERVICE_DATA.put(newBike.getId(), newBike);
     }
 
     /**
@@ -83,27 +83,27 @@ public class TasksRemoteDataSource implements TasksDataSource {
      */
     @Override
     public void getTask(@NonNull String taskId, final @NonNull GetTaskCallback callback) {
-        final Task task = TASKS_SERVICE_DATA.get(taskId);
+        final Bike bike = TASKS_SERVICE_DATA.get(taskId);
 
         // Simulate network by delaying the execution.
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                callback.onTaskLoaded(task);
+                callback.onTaskLoaded(bike);
             }
         }, SERVICE_LATENCY_IN_MILLIS);
     }
 
     @Override
-    public void saveTask(@NonNull Task task) {
-        TASKS_SERVICE_DATA.put(task.getId(), task);
+    public void saveTask(@NonNull Bike bike) {
+        TASKS_SERVICE_DATA.put(bike.getId(), bike);
     }
 
     @Override
-    public void completeTask(@NonNull Task task) {
-        Task completedTask = new Task(task.getTitle(), task.getDescription(), task.getId(), true);
-        TASKS_SERVICE_DATA.put(task.getId(), completedTask);
+    public void completeTask(@NonNull Bike bike) {
+        Bike completedBike = new Bike(bike.getTitle(), bike.getDescription(), bike.getId(), true);
+        TASKS_SERVICE_DATA.put(bike.getId(), completedBike);
     }
 
     @Override
@@ -113,9 +113,9 @@ public class TasksRemoteDataSource implements TasksDataSource {
     }
 
     @Override
-    public void activateTask(@NonNull Task task) {
-        Task activeTask = new Task(task.getTitle(), task.getDescription(), task.getId());
-        TASKS_SERVICE_DATA.put(task.getId(), activeTask);
+    public void activateTask(@NonNull Bike bike) {
+        Bike activeBike = new Bike(bike.getTitle(), bike.getDescription(), bike.getId());
+        TASKS_SERVICE_DATA.put(bike.getId(), activeBike);
     }
 
     @Override
@@ -126,9 +126,9 @@ public class TasksRemoteDataSource implements TasksDataSource {
 
     @Override
     public void clearCompletedTasks() {
-        Iterator<Map.Entry<String, Task>> it = TASKS_SERVICE_DATA.entrySet().iterator();
+        Iterator<Map.Entry<String, Bike>> it = TASKS_SERVICE_DATA.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry<String, Task> entry = it.next();
+            Map.Entry<String, Bike> entry = it.next();
             if (entry.getValue().isCompleted()) {
                 it.remove();
             }

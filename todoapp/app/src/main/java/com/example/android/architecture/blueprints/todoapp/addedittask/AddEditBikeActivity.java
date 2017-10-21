@@ -30,22 +30,23 @@ import com.example.android.architecture.blueprints.todoapp.util.ActivityUtils;
 import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource;
 
 /**
- * Displays an add or edit task screen.
+ * Displays an add or edit abandoned bike entry screen,
+ * along with the all abandoned bike available in R miles radius
  */
-public class AddEditTaskActivity extends AppCompatActivity {
+public class AddEditBikeActivity extends AppCompatActivity {
 
-    public static final int REQUEST_ADD_TASK = 1;
+    public static final int REQUEST_ADD_BIKE = 1;
 
     public static final String SHOULD_LOAD_DATA_FROM_REPO_KEY = "SHOULD_LOAD_DATA_FROM_REPO_KEY";
 
-    private AddEditTaskPresenter mAddEditTaskPresenter;
+    private AddEditBikePresenter mAddEditBikePresenter;
 
     private ActionBar mActionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.addtask_act);
+        setContentView(R.layout.addbike_act);
 
         // Set up the toolbar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -53,25 +54,22 @@ public class AddEditTaskActivity extends AppCompatActivity {
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setDisplayShowHomeEnabled(true);
-
-        AddEditTaskFragment addEditTaskFragment = (AddEditTaskFragment) getSupportFragmentManager()
+        AddEditBikeFragment addEditBikeFragment = (AddEditBikeFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
+        String bikeId = getIntent().getStringExtra(AddEditBikeFragment.ARGUMENT_EDIT_BIKE_ID);
+        setToolbarTitle(bikeId);
 
-        String taskId = getIntent().getStringExtra(AddEditTaskFragment.ARGUMENT_EDIT_TASK_ID);
+        if (addEditBikeFragment == null) {
+            addEditBikeFragment = AddEditBikeFragment.newInstance();
 
-        setToolbarTitle(taskId);
-
-        if (addEditTaskFragment == null) {
-            addEditTaskFragment = AddEditTaskFragment.newInstance();
-
-            if (getIntent().hasExtra(AddEditTaskFragment.ARGUMENT_EDIT_TASK_ID)) {
+            if (getIntent().hasExtra(AddEditBikeFragment.ARGUMENT_EDIT_BIKE_ID)) {
                 Bundle bundle = new Bundle();
-                bundle.putString(AddEditTaskFragment.ARGUMENT_EDIT_TASK_ID, taskId);
-                addEditTaskFragment.setArguments(bundle);
+                bundle.putString(AddEditBikeFragment.ARGUMENT_EDIT_BIKE_ID, bikeId);
+                addEditBikeFragment.setArguments(bundle);
             }
 
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
-                    addEditTaskFragment, R.id.contentFrame);
+                    addEditBikeFragment, R.id.contentFrame);
         }
 
         boolean shouldLoadDataFromRepo = true;
@@ -83,25 +81,25 @@ public class AddEditTaskActivity extends AppCompatActivity {
         }
 
         // Create the presenter
-        mAddEditTaskPresenter = new AddEditTaskPresenter(
-                taskId,
+        mAddEditBikePresenter = new AddEditBikePresenter(
+                bikeId,
                 Injection.provideTasksRepository(getApplicationContext()),
-                addEditTaskFragment,
+                addEditBikeFragment,
                 shouldLoadDataFromRepo);
     }
 
     private void setToolbarTitle(@Nullable String taskId) {
         if(taskId == null) {
-            mActionBar.setTitle(R.string.add_task);
+            mActionBar.setTitle(R.string.add_bike);
         } else {
-            mActionBar.setTitle(R.string.edit_task);
+            mActionBar.setTitle(R.string.edit_bike);
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         // Save the state so that next time we know if we need to refresh data.
-        outState.putBoolean(SHOULD_LOAD_DATA_FROM_REPO_KEY, mAddEditTaskPresenter.isDataMissing());
+        outState.putBoolean(SHOULD_LOAD_DATA_FROM_REPO_KEY, mAddEditBikePresenter.isDataMissing());
         super.onSaveInstanceState(outState);
     }
 

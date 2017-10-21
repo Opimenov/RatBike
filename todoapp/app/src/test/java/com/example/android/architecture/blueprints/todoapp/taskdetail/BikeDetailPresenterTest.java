@@ -16,7 +16,7 @@
 
 package com.example.android.architecture.blueprints.todoapp.taskdetail;
 
-import com.example.android.architecture.blueprints.todoapp.data.Task;
+import com.example.android.architecture.blueprints.todoapp.data.Bike;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
 
@@ -37,7 +37,7 @@ import static org.mockito.Mockito.when;
 /**
  * Unit tests for the implementation of {@link TaskDetailPresenter}
  */
-public class TaskDetailPresenterTest {
+public class BikeDetailPresenterTest {
 
     public static final String TITLE_TEST = "title";
 
@@ -45,9 +45,9 @@ public class TaskDetailPresenterTest {
 
     public static final String INVALID_TASK_ID = "";
 
-    public static final Task ACTIVE_TASK = new Task(TITLE_TEST, DESCRIPTION_TEST);
+    public static final Bike ACTIVE_BIKE = new Bike(TITLE_TEST, DESCRIPTION_TEST);
 
-    public static final Task COMPLETED_TASK = new Task(TITLE_TEST, DESCRIPTION_TEST, true);
+    public static final Bike COMPLETED_BIKE = new Bike(TITLE_TEST, DESCRIPTION_TEST, true);
 
     @Mock
     private TasksRepository mTasksRepository;
@@ -78,7 +78,7 @@ public class TaskDetailPresenterTest {
     public void createPresenter_setsThePresenterToView() {
         // Get a reference to the class under test
         mTaskDetailPresenter = new TaskDetailPresenter(
-                ACTIVE_TASK.getId(), mTasksRepository, mTaskDetailView);
+                ACTIVE_BIKE.getId(), mTasksRepository, mTaskDetailView);
 
         // Then the presenter is set to the view
         verify(mTaskDetailView).setPresenter(mTaskDetailPresenter);
@@ -88,16 +88,16 @@ public class TaskDetailPresenterTest {
     public void getActiveTaskFromRepositoryAndLoadIntoView() {
         // When tasks presenter is asked to open a task
         mTaskDetailPresenter = new TaskDetailPresenter(
-                ACTIVE_TASK.getId(), mTasksRepository, mTaskDetailView);
+                ACTIVE_BIKE.getId(), mTasksRepository, mTaskDetailView);
         mTaskDetailPresenter.start();
 
         // Then task is loaded from model, callback is captured and progress indicator is shown
-        verify(mTasksRepository).getTask(eq(ACTIVE_TASK.getId()), mGetTaskCallbackCaptor.capture());
+        verify(mTasksRepository).getTask(eq(ACTIVE_BIKE.getId()), mGetTaskCallbackCaptor.capture());
         InOrder inOrder = inOrder(mTaskDetailView);
         inOrder.verify(mTaskDetailView).setLoadingIndicator(true);
 
         // When task is finally loaded
-        mGetTaskCallbackCaptor.getValue().onTaskLoaded(ACTIVE_TASK); // Trigger callback
+        mGetTaskCallbackCaptor.getValue().onTaskLoaded(ACTIVE_BIKE); // Trigger callback
 
         // Then progress indicator is hidden and title, description and completion status are shown
         // in UI
@@ -110,17 +110,17 @@ public class TaskDetailPresenterTest {
     @Test
     public void getCompletedTaskFromRepositoryAndLoadIntoView() {
         mTaskDetailPresenter = new TaskDetailPresenter(
-                COMPLETED_TASK.getId(), mTasksRepository, mTaskDetailView);
+                COMPLETED_BIKE.getId(), mTasksRepository, mTaskDetailView);
         mTaskDetailPresenter.start();
 
         // Then task is loaded from model, callback is captured and progress indicator is shown
         verify(mTasksRepository).getTask(
-                eq(COMPLETED_TASK.getId()), mGetTaskCallbackCaptor.capture());
+                eq(COMPLETED_BIKE.getId()), mGetTaskCallbackCaptor.capture());
         InOrder inOrder = inOrder(mTaskDetailView);
         inOrder.verify(mTaskDetailView).setLoadingIndicator(true);
 
         // When task is finally loaded
-        mGetTaskCallbackCaptor.getValue().onTaskLoaded(COMPLETED_TASK); // Trigger callback
+        mGetTaskCallbackCaptor.getValue().onTaskLoaded(COMPLETED_BIKE); // Trigger callback
 
         // Then progress indicator is hidden and title, description and completion status are shown
         // in UI
@@ -141,60 +141,60 @@ public class TaskDetailPresenterTest {
 
     @Test
     public void deleteTask() {
-        // Given an initialized TaskDetailPresenter with stubbed task
-        Task task = new Task(TITLE_TEST, DESCRIPTION_TEST);
+        // Given an initialized TaskDetailPresenter with stubbed bike
+        Bike bike = new Bike(TITLE_TEST, DESCRIPTION_TEST);
 
-        // When the deletion of a task is requested
+        // When the deletion of a bike is requested
         mTaskDetailPresenter = new TaskDetailPresenter(
-                task.getId(), mTasksRepository, mTaskDetailView);
+                bike.getId(), mTasksRepository, mTaskDetailView);
         mTaskDetailPresenter.deleteTask();
 
         // Then the repository and the view are notified
-        verify(mTasksRepository).deleteTask(task.getId());
+        verify(mTasksRepository).deleteTask(bike.getId());
         verify(mTaskDetailView).showTaskDeleted();
     }
 
     @Test
     public void completeTask() {
-        // Given an initialized presenter with an active task
-        Task task = new Task(TITLE_TEST, DESCRIPTION_TEST);
+        // Given an initialized presenter with an active bike
+        Bike bike = new Bike(TITLE_TEST, DESCRIPTION_TEST);
         mTaskDetailPresenter = new TaskDetailPresenter(
-                task.getId(), mTasksRepository, mTaskDetailView);
+                bike.getId(), mTasksRepository, mTaskDetailView);
         mTaskDetailPresenter.start();
 
-        // When the presenter is asked to complete the task
+        // When the presenter is asked to complete the bike
         mTaskDetailPresenter.completeTask();
 
-        // Then a request is sent to the task repository and the UI is updated
-        verify(mTasksRepository).completeTask(task.getId());
+        // Then a request is sent to the bike repository and the UI is updated
+        verify(mTasksRepository).completeTask(bike.getId());
         verify(mTaskDetailView).showTaskMarkedComplete();
     }
 
     @Test
     public void activateTask() {
-        // Given an initialized presenter with a completed task
-        Task task = new Task(TITLE_TEST, DESCRIPTION_TEST, true);
+        // Given an initialized presenter with a completed bike
+        Bike bike = new Bike(TITLE_TEST, DESCRIPTION_TEST, true);
         mTaskDetailPresenter = new TaskDetailPresenter(
-                task.getId(), mTasksRepository, mTaskDetailView);
+                bike.getId(), mTasksRepository, mTaskDetailView);
         mTaskDetailPresenter.start();
 
-        // When the presenter is asked to activate the task
+        // When the presenter is asked to activate the bike
         mTaskDetailPresenter.activateTask();
 
-        // Then a request is sent to the task repository and the UI is updated
-        verify(mTasksRepository).activateTask(task.getId());
+        // Then a request is sent to the bike repository and the UI is updated
+        verify(mTasksRepository).activateTask(bike.getId());
         verify(mTaskDetailView).showTaskMarkedActive();
     }
 
     @Test
     public void activeTaskIsShownWhenEditing() {
-        // When the edit of an ACTIVE_TASK is requested
+        // When the edit of an ACTIVE_BIKE is requested
         mTaskDetailPresenter = new TaskDetailPresenter(
-                ACTIVE_TASK.getId(), mTasksRepository, mTaskDetailView);
+                ACTIVE_BIKE.getId(), mTasksRepository, mTaskDetailView);
         mTaskDetailPresenter.editTask();
 
         // Then the view is notified
-        verify(mTaskDetailView).showEditTask(ACTIVE_TASK.getId());
+        verify(mTaskDetailView).showEditTask(ACTIVE_BIKE.getId());
     }
 
     @Test

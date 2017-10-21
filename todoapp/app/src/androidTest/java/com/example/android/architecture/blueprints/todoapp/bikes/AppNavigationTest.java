@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.tasks;
+package com.example.android.architecture.blueprints.todoapp.bikes;
 
 import android.support.test.espresso.NoActivityResumedException;
 import android.support.test.filters.LargeTest;

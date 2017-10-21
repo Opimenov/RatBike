@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.tasks;
+package com.example.android.architecture.blueprints.todoapp.bikes;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
 
-import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskActivity;
-import com.example.android.architecture.blueprints.todoapp.data.Task;
+import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditBikeActivity;
+import com.example.android.architecture.blueprints.todoapp.data.Bike;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
 import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource;
@@ -59,7 +59,7 @@ public class TasksPresenter implements TasksContract.Presenter {
     @Override
     public void result(int requestCode, int resultCode) {
         // If a task was successfully added, show snackbar
-        if (AddEditTaskActivity.REQUEST_ADD_TASK == requestCode && Activity.RESULT_OK == resultCode) {
+        if (AddEditBikeActivity.REQUEST_ADD_BIKE == requestCode && Activity.RESULT_OK == resultCode) {
             mTasksView.showSuccessfullySavedMessage();
         }
     }
@@ -89,8 +89,8 @@ public class TasksPresenter implements TasksContract.Presenter {
 
         mTasksRepository.getTasks(new TasksDataSource.LoadTasksCallback() {
             @Override
-            public void onTasksLoaded(List<Task> tasks) {
-                List<Task> tasksToShow = new ArrayList<Task>();
+            public void onTasksLoaded(List<Bike> bikes) {
+                List<Bike> tasksToShow = new ArrayList<Bike>();
 
                 // This callback may be called twice, once for the cache and once for loading
                 // the data from the server API, so we check before decrementing, otherwise
@@ -99,24 +99,24 @@ public class TasksPresenter implements TasksContract.Presenter {
                     EspressoIdlingResource.decrement(); // Set app as idle.
                 }
 
-                // We filter the tasks based on the requestType
-                for (Task task : tasks) {
+                // We filter the bikes based on the requestType
+                for (Bike bike : bikes) {
                     switch (mCurrentFiltering) {
                         case ALL_TASKS:
-                            tasksToShow.add(task);
+                            tasksToShow.add(bike);
                             break;
                         case ACTIVE_TASKS:
-                            if (task.isActive()) {
-                                tasksToShow.add(task);
+                            if (bike.isActive()) {
+                                tasksToShow.add(bike);
                             }
                             break;
                         case COMPLETED_TASKS:
-                            if (task.isCompleted()) {
-                                tasksToShow.add(task);
+                            if (bike.isCompleted()) {
+                                tasksToShow.add(bike);
                             }
                             break;
                         default:
-                            tasksToShow.add(task);
+                            tasksToShow.add(bike);
                             break;
                     }
                 }
@@ -142,13 +142,13 @@ public class TasksPresenter implements TasksContract.Presenter {
         });
     }
 
-    private void processTasks(List<Task> tasks) {
-        if (tasks.isEmpty()) {
-            // Show a message indicating there are no tasks for that filter type.
+    private void processTasks(List<Bike> bikes) {
+        if (bikes.isEmpty()) {
+            // Show a message indicating there are no bikes for that filter type.
             processEmptyTasks();
         } else {
-            // Show the list of tasks
-            mTasksView.showTasks(tasks);
+            // Show the list of bikes
+            mTasksView.showTasks(bikes);
             // Set the filter label's text.
             showFilterLabel();
         }
@@ -188,23 +188,23 @@ public class TasksPresenter implements TasksContract.Presenter {
     }
 
     @Override
-    public void openTaskDetails(@NonNull Task requestedTask) {
-        checkNotNull(requestedTask, "requestedTask cannot be null!");
-        mTasksView.showTaskDetailsUi(requestedTask.getId());
+    public void openTaskDetails(@NonNull Bike requestedBike) {
+        checkNotNull(requestedBike, "requestedBike cannot be null!");
+        mTasksView.showTaskDetailsUi(requestedBike.getId());
     }
 
     @Override
-    public void completeTask(@NonNull Task completedTask) {
-        checkNotNull(completedTask, "completedTask cannot be null!");
-        mTasksRepository.completeTask(completedTask);
+    public void completeTask(@NonNull Bike completedBike) {
+        checkNotNull(completedBike, "completedBike cannot be null!");
+        mTasksRepository.completeTask(completedBike);
         mTasksView.showTaskMarkedComplete();
         loadTasks(false, false);
     }
 
     @Override
-    public void activateTask(@NonNull Task activeTask) {
-        checkNotNull(activeTask, "activeTask cannot be null!");
-        mTasksRepository.activateTask(activeTask);
+    public void activateTask(@NonNull Bike activeBike) {
+        checkNotNull(activeBike, "activeBike cannot be null!");
+        mTasksRepository.activateTask(activeBike);
         mTasksView.showTaskMarkedActive();
         loadTasks(false, false);
     }

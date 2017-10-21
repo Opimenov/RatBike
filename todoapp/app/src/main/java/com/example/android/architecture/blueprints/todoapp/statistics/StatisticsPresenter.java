@@ -18,7 +18,7 @@ package com.example.android.architecture.blueprints.todoapp.statistics;
 
 import android.support.annotation.NonNull;
 
-import com.example.android.architecture.blueprints.todoapp.data.Task;
+import com.example.android.architecture.blueprints.todoapp.data.Bike;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
 import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource;
@@ -59,7 +59,7 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
 
         mTasksRepository.getTasks(new TasksDataSource.LoadTasksCallback() {
             @Override
-            public void onTasksLoaded(List<Task> tasks) {
+            public void onTasksLoaded(List<Bike> bikes) {
                 int activeTasks = 0;
                 int completedTasks = 0;
 
@@ -70,9 +70,9 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
                     EspressoIdlingResource.decrement(); // Set app as idle.
                 }
 
-                // We calculate number of active and completed tasks
-                for (Task task : tasks) {
-                    if (task.isCompleted()) {
+                // We calculate number of active and completed bikes
+                for (Bike bike : bikes) {
+                    if (bike.isCompleted()) {
                         completedTasks += 1;
                     } else {
                         activeTasks += 1;

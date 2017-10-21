@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.tasks;
+package com.example.android.architecture.blueprints.todoapp.bikes;
 
 import android.support.annotation.NonNull;
 
 import com.example.android.architecture.blueprints.todoapp.BaseView;
-import com.example.android.architecture.blueprints.todoapp.data.Task;
+import com.example.android.architecture.blueprints.todoapp.data.Bike;
 import com.example.android.architecture.blueprints.todoapp.BasePresenter;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public interface TasksContract {
 
         void setLoadingIndicator(boolean active);
 
-        void showTasks(List<Task> tasks);
+        void showTasks(List<Bike> bikes);
 
         void showAddTask();
 
@@ -74,11 +74,11 @@ public interface TasksContract {
 
         void addNewTask();
 
-        void openTaskDetails(@NonNull Task requestedTask);
+        void openTaskDetails(@NonNull Bike requestedBike);
 
-        void completeTask(@NonNull Task completedTask);
+        void completeTask(@NonNull Bike completedBike);
 
-        void activateTask(@NonNull Task activeTask);
+        void activateTask(@NonNull Bike activeBike);
 
         void clearCompletedTasks();
 
