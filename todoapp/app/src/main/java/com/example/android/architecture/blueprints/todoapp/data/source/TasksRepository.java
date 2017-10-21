@@ -140,14 +140,15 @@ public class TasksRepository implements TasksDataSource {
         checkNotNull(bike);
         mTasksRemoteDataSource.completeTask(bike);
         mTasksLocalDataSource.completeTask(bike);
-
-        Bike completedBike = new Bike(bike.getTitle(), bike.getDescription(), bike.getId(), true);
+        //TODO: fix this
+//        Bike completedBike = new Bike(bike.getTitle(), bike.getDescription(), bike.getId(), true);
 
         // Do in memory cache update to keep the app UI up to date
         if (mCachedTasks == null) {
             mCachedTasks = new LinkedHashMap<>();
         }
-        mCachedTasks.put(bike.getId(), completedBike);
+        //TODO:  fix this
+//        mCachedTasks.put(bike.getId(), completedBike);
     }
 
     @Override
@@ -161,14 +162,15 @@ public class TasksRepository implements TasksDataSource {
         checkNotNull(bike);
         mTasksRemoteDataSource.activateTask(bike);
         mTasksLocalDataSource.activateTask(bike);
-
-        Bike activeBike = new Bike(bike.getTitle(), bike.getDescription(), bike.getId());
+        //TODO: fix
+//        Bike activeBike = new Bike(bike.getTitle(), bike.getDescription(), bike.getId());
 
         // Do in memory cache update to keep the app UI up to date
         if (mCachedTasks == null) {
             mCachedTasks = new LinkedHashMap<>();
         }
-        mCachedTasks.put(bike.getId(), activeBike);
+        //TODO: fix
+//        mCachedTasks.put(bike.getId(), activeBike);
     }
 
     @Override

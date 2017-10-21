@@ -81,8 +81,9 @@ public class TasksLocalDataSource implements TasksDataSource {
                         c.getString(c.getColumnIndexOrThrow(TaskEntry.COLUMN_NAME_DESCRIPTION));
                 boolean completed =
                         c.getInt(c.getColumnIndexOrThrow(TaskEntry.COLUMN_NAME_COMPLETED)) == 1;
-                Bike bike = new Bike(title, description, itemId, completed);
-                bikes.add(bike);
+                //TODO: create new bike and add it to the bikes
+//                Bike bike = new Bike(title, description, itemId, completed);
+//                bikes.add(bike);
             }
         }
         if (c != null) {
@@ -131,7 +132,8 @@ public class TasksLocalDataSource implements TasksDataSource {
                     c.getString(c.getColumnIndexOrThrow(TaskEntry.COLUMN_NAME_DESCRIPTION));
             boolean completed =
                     c.getInt(c.getColumnIndexOrThrow(TaskEntry.COLUMN_NAME_COMPLETED)) == 1;
-            bike = new Bike(title, description, itemId, completed);
+            //TODO: fix this
+//            bike = new Bike(title, description, itemId, completed);
         }
         if (c != null) {
             c.close();

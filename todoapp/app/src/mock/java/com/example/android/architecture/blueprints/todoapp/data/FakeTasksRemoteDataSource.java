@@ -63,8 +63,9 @@ public class FakeTasksRemoteDataSource implements TasksDataSource {
 
     @Override
     public void completeTask(@NonNull Bike bike) {
-        Bike completedBike = new Bike(bike.getTitle(), bike.getDescription(), bike.getId(), true);
-        TASKS_SERVICE_DATA.put(bike.getId(), completedBike);
+        //TODO: fix
+//        Bike completedBike = new Bike(bike.getTitle(), bike.getDescription(), bike.getId(), true);
+//        TASKS_SERVICE_DATA.put(bike.getId(), completedBike);
     }
 
     @Override
@@ -74,8 +75,9 @@ public class FakeTasksRemoteDataSource implements TasksDataSource {
 
     @Override
     public void activateTask(@NonNull Bike bike) {
-        Bike activeBike = new Bike(bike.getTitle(), bike.getDescription(), bike.getId());
-        TASKS_SERVICE_DATA.put(bike.getId(), activeBike);
+        //TODO: fix
+//        Bike activeBike = new Bike(bike.getTitle(), bike.getDescription(), bike.getId());
+//        TASKS_SERVICE_DATA.put(bike.getId(), activeBike);
     }
 
     @Override

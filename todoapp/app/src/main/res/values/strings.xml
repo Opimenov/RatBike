@@ -90,7 +90,7 @@
     <string name="is_this_bike_complete">Is this bike complete?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="click_share_your_location_button">Click share your location button</string>
+    <string name="click_share_your_location_button">Record bikes location</string>
     <string name="locate_me">Locate me</string>
 
 </resources>

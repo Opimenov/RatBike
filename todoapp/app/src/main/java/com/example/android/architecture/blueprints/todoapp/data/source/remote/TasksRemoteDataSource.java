@@ -55,8 +55,9 @@ public class TasksRemoteDataSource implements TasksDataSource {
     private TasksRemoteDataSource() {}
 
     private static void addTask(String title, String description) {
-        Bike newBike = new Bike(title, description);
-        TASKS_SERVICE_DATA.put(newBike.getId(), newBike);
+        //TODO: implement this
+//        Bike newBike = new Bike(title, description);
+//        TASKS_SERVICE_DATA.put(newBike.getId(), newBike);
     }
 
     /**
@@ -102,8 +103,9 @@ public class TasksRemoteDataSource implements TasksDataSource {
 
     @Override
     public void completeTask(@NonNull Bike bike) {
-        Bike completedBike = new Bike(bike.getTitle(), bike.getDescription(), bike.getId(), true);
-        TASKS_SERVICE_DATA.put(bike.getId(), completedBike);
+        //TODO: implement this
+//        Bike completedBike = new Bike(bike.getTitle(), bike.getDescription(), bike.getId(), true);
+//        TASKS_SERVICE_DATA.put(bike.getId(), completedBike);
     }
 
     @Override
@@ -114,8 +116,9 @@ public class TasksRemoteDataSource implements TasksDataSource {
 
     @Override
     public void activateTask(@NonNull Bike bike) {
-        Bike activeBike = new Bike(bike.getTitle(), bike.getDescription(), bike.getId());
-        TASKS_SERVICE_DATA.put(bike.getId(), activeBike);
+        //TODO: implement this
+//        Bike activeBike = new Bike(bike.getTitle(), bike.getDescription(), bike.getId());
+//        TASKS_SERVICE_DATA.put(bike.getId(), activeBike);
     }
 
     @Override

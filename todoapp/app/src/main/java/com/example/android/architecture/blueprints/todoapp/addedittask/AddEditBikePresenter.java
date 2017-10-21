@@ -16,12 +16,17 @@
 
 package com.example.android.architecture.blueprints.todoapp.addedittask;
 
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.example.android.architecture.blueprints.todoapp.data.Bike;
 import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
 
+import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -30,6 +35,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class AddEditBikePresenter implements AddEditBikeContract.Presenter,
         TasksDataSource.GetTaskCallback {
+    //TODO: remove this internal saving and save it in database
+    ArrayList<Bike> listOfAvailableBikes= new ArrayList<>();
 
     @NonNull
     private final TasksDataSource mTasksRepository;
@@ -63,21 +70,29 @@ public class AddEditBikePresenter implements AddEditBikeContract.Presenter,
     @Override
     public void start() {
         if (!isNewTask() && mIsDataMissing) {
-            populateTask();
+            populateBike();
         }
     }
 
     @Override
-    public void saveTask(String title, String description) {
-        if (isNewTask()) {
-            createTask(title, description);
-        } else {
-            updateTask(title, description);
-        }
+    public void saveBike(
+            Bitmap image,
+            String type,
+            String location,
+            boolean[] parts,
+            boolean complete) {
+        //TODO: fix not use internal
+        listOfAvailableBikes.add(new Bike(image,type,parts,location,complete));
+        Log.i(TAG, "saveBike: available bikes number"+ listOfAvailableBikes.size());
+//        if (isNewTask()) {
+//            createTask(title, description);
+//        } else {
+//            updateTask(title, description);
+//        }
     }
 
     @Override
-    public void populateTask() {
+    public void populateBike() {
         if (isNewTask()) {
             throw new RuntimeException("populateTask() was called but task is new.");
         }
@@ -86,18 +101,19 @@ public class AddEditBikePresenter implements AddEditBikeContract.Presenter,
 
     @Override
     public void onTaskLoaded(Bike bike) {
+        //TODO: fix
         // The view may not be able to handle UI updates anymore
-        if (mAddTaskView.isActive()) {
-            mAddTaskView.setTitle(bike.getTitle());
-            mAddTaskView.setDescription(bike.getDescription());
-        }
-        mIsDataMissing = false;
+//        if (mAddTaskView.isActive()) {
+//            mAddTaskView.setTitle(bike.getTitle());
+//            mAddTaskView.setDescription(bike.getDescription());
+//        }
+//        mIsDataMissing = false;
     }
 
     @Override
     public void onDataNotAvailable() {
         // The view may not be able to handle UI updates anymore
-        if (mAddTaskView.isActive()) {
+        if (mAddTaskView.isComplete()) {
             mAddTaskView.showNoBikeFoundError();
         }
     }
@@ -111,21 +127,23 @@ public class AddEditBikePresenter implements AddEditBikeContract.Presenter,
         return mTaskId == null;
     }
 
-    private void createTask(String title, String description) {
-        Bike newBike = new Bike(title, description);
-        if (newBike.isEmpty()) {
-            mAddTaskView.showNoBikeFoundError();
-        } else {
-            mTasksRepository.saveTask(newBike);
-            mAddTaskView.showBikesList();
-        }
+    //TODO: fix
+    private void createBike(String title, String description) {
+//        Bike newBike = new Bike(title, description);
+//        if (newBike.isEmpty()) {
+//            mAddTaskView.showNoBikeFoundError();
+//        } else {
+//            mTasksRepository.saveTask(newBike);
+//            mAddTaskView.showBikesList();
+//        }
     }
 
-    private void updateTask(String title, String description) {
-        if (isNewTask()) {
-            throw new RuntimeException("updateTask() was called but task is new.");
-        }
-        mTasksRepository.saveTask(new Bike(title, description, mTaskId));
-        mAddTaskView.showBikesList(); // After an edit, go back to the list.
+    //TODO: fix
+    private void updateBike(String title, String description) {
+//        if (isNewTask()) {
+//            throw new RuntimeException("updateTask() was called but task is new.");
+//        }
+//        mTasksRepository.saveTask(new Bike(title, description, mTaskId));
+//        mAddTaskView.showBikesList(); // After an edit, go back to the list.
     }
 }

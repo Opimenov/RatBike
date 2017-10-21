@@ -25,5 +25,6 @@
     <dimen name="separator_margin">16dp</dimen>
     <dimen name="separator_thickness">3dp</dimen>
     <dimen name="checkbox_row">32dp</dimen>
+    <dimen name="picture_margin">32dp</dimen>
 
 </resources>

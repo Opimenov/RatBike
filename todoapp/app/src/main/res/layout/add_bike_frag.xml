@@ -29,46 +29,61 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:showDividers="middle">
 
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/select_bike_type" />
 
-        <RadioGroup
-            android:id="@+id/type_radiogroup"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <RadioButton
-                android:id="@+id/road_bike_radio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/road_bike" />
+            <RadioGroup
+                android:id="@+id/type_radiogroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-            <RadioButton
-                android:id="@+id/mountain_bike_radio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/mountain_bike" />
+                <RadioButton
+                    android:id="@+id/road_bike_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/road_bike" />
 
-            <RadioButton
-                android:id="@+id/hybrid_bike_radio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/hybrid_bike_comfort" />
+                <RadioButton
+                    android:id="@+id/mountain_bike_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mountain_bike" />
 
-            <RadioButton
-                android:id="@+id/cruiser_bike_radio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/cruiser_bike" />
+                <RadioButton
+                    android:id="@+id/hybrid_bike_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hybrid_bike_comfort" />
 
-            <RadioButton
-                android:id="@+id/bmx_bike_radio"
-                android:layout_width="match_parent"
+                <RadioButton
+                    android:id="@+id/cruiser_bike_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cruiser_bike" />
+
+                <RadioButton
+                    android:id="@+id/bmx_bike_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bmx_bike" />
+            </RadioGroup>
+
+            <ImageView
+                android:id="@+id/bike_picture"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/bmx_bike" />
-        </RadioGroup>
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/picture_margin"
+                android:layout_toRightOf="@+id/type_radiogroup" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -108,7 +123,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/parts_list_radio_group"
+            android:id="@+id/parts_list_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -229,18 +244,19 @@
 
             <TextView
                 android:id="@+id/location_text_view"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/separator_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/separator_margin"
                 android:hint="@string/click_share_your_location_button" />
 
             <Button
+
                 android:id="@+id/share_location_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/locate_me"
-                android:layout_toRightOf="@+id/location_text_view"/>
+                android:layout_toRightOf="@+id/location_text_view"
+                android:text="@string/locate_me" />
 
         </RelativeLayout>
 
