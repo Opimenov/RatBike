@@ -19,7 +19,7 @@ package com.example.android.architecture.blueprints.todoapp.data;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
+import com.example.android.architecture.blueprints.todoapp.data.source.BikesDataSource;
 import com.google.common.collect.Lists;
 
 import java.util.Iterator;
@@ -29,29 +29,34 @@ import java.util.Map;
 /**
  * Implementation of a remote data source with static access to the data for easy testing.
  */
-public class FakeTasksRemoteDataSource implements TasksDataSource {
+public class FakeBikesRemoteDataSource implements BikesDataSource {
 
-    private static FakeTasksRemoteDataSource INSTANCE;
+    private static FakeBikesRemoteDataSource INSTANCE;
 
     private static final Map<String, Bike> TASKS_SERVICE_DATA = new LinkedHashMap<>();
 
     // Prevent direct instantiation.
-    private FakeTasksRemoteDataSource() {}
+    private FakeBikesRemoteDataSource() {}
 
-    public static FakeTasksRemoteDataSource getInstance() {
+    public static FakeBikesRemoteDataSource getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new FakeTasksRemoteDataSource();
+            INSTANCE = new FakeBikesRemoteDataSource();
         }
         return INSTANCE;
     }
 
     @Override
-    public void getTasks(@NonNull LoadTasksCallback callback) {
-        callback.onTasksLoaded(Lists.newArrayList(TASKS_SERVICE_DATA.values()));
+    public void addBike(Bike bike) {
+        //TODO implement this
     }
 
     @Override
-    public void getTask(@NonNull String taskId, @NonNull GetTaskCallback callback) {
+    public void getTasks(@NonNull LoadBikesCallback callback) {
+        callback.onBikesLoaded(Lists.newArrayList(TASKS_SERVICE_DATA.values()));
+    }
+
+    @Override
+    public void getTask(@NonNull String taskId, @NonNull GetBikeCallback callback) {
         Bike bike = TASKS_SERVICE_DATA.get(taskId);
         callback.onTaskLoaded(bike);
     }
@@ -96,7 +101,7 @@ public class FakeTasksRemoteDataSource implements TasksDataSource {
         }
     }
 
-    public void refreshTasks() {
+    public void refreshBikes() {
         // Not required because the {@link TasksRepository} handles the logic of refreshing the
         // tasks from all the available data sources.
     }

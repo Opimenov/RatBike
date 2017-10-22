@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.addedittask;
+package com.example.android.architecture.blueprints.todoapp.addeditbike;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -65,11 +62,11 @@ public class AddEditBikeFragment extends Fragment implements AddEditBikeContract
     private RadioGroup typeRadioGroup;
     private RadioGroup completeRadioGroup;
     private TextView locationTextView;
-    private Button   locateMeButton;
+    private Button locateMeButton;
     private LinearLayout partsList;
     private ImageView mImageView;
 
-    private CheckBox[]  checkBoxes= new CheckBox[17];
+    private CheckBox[] checkBoxes = new CheckBox[18];
 
     private CheckBox frameCheckBox;
     private CheckBox seatCheckBox;
@@ -115,30 +112,49 @@ public class AddEditBikeFragment extends Fragment implements AddEditBikeContract
         super.onActivityCreated(savedInstanceState);
 
         typeRadioGroup = (RadioGroup) getActivity().findViewById(R.id.type_radiogroup);
-        completeRadioGroup= (RadioGroup) getActivity().findViewById(R.id.yes_no_radiogroup);
+        completeRadioGroup = (RadioGroup) getActivity().findViewById(R.id.yes_no_radiogroup);
         locationTextView = (TextView) getActivity().findViewById(R.id.location_text_view);
         locateMeButton = (Button) getActivity().findViewById(R.id.share_location_btn);
         partsList = (LinearLayout) getActivity().findViewById(R.id.parts_list_linear_layout);
         mImageView = (ImageView) getActivity().findViewById(R.id.bike_picture);
         mImageView.setVisibility(View.GONE);
-        frameCheckBox  = (CheckBox) getActivity().findViewById(R.id.frame_radio);
+        int i = 0;
+        frameCheckBox = (CheckBox) getActivity().findViewById(R.id.frame_radio);
+        checkBoxes[i++] = frameCheckBox;
         seatCheckBox = (CheckBox) getActivity().findViewById(R.id.seat_radio);
+        checkBoxes[i++] = seatCheckBox;
         frontWheelCheckBox = (CheckBox) getActivity().findViewById(R.id.front_wheel_radio);
+        checkBoxes[i++] = frontWheelCheckBox;
         decentTireCheckBox = (CheckBox) getActivity().findViewById(R.id.decent_tire_radio);
+        checkBoxes[i++] = decentTireCheckBox;
         forkCheckBox = (CheckBox) getActivity().findViewById(R.id.fork_radio);
-        stemCheckBox  = (CheckBox) getActivity().findViewById(R.id.stem_radio);
+        checkBoxes[i++] = forkCheckBox;
+        stemCheckBox = (CheckBox) getActivity().findViewById(R.id.stem_radio);
+        checkBoxes[i++] = stemCheckBox;
         handlebarCheckBox = (CheckBox) getActivity().findViewById(R.id.habdlebars_radio);
+        checkBoxes[i++] = handlebarCheckBox;
         brakeLeversCheckBox = (CheckBox) getActivity().findViewById(R.id.brake_levers_radio);
+        checkBoxes[i++] = brakeLeversCheckBox;
         gearShiftersCheckBox = (CheckBox) getActivity().findViewById(R.id.gear_shifters_radio);
+        checkBoxes[i++] = gearShiftersCheckBox;
         frontBrakeCheckBox = (CheckBox) getActivity().findViewById(R.id.front_brake_radio);
+        checkBoxes[i++] = frontBrakeCheckBox;
         pedalsCheckBox = (CheckBox) getActivity().findViewById(R.id.pedals_radio);
+        checkBoxes[i++] = pedalsCheckBox;
         crankArmsCheckBox = (CheckBox) getActivity().findViewById(R.id.crank_arms_radio);
+        checkBoxes[i++] = crankArmsCheckBox;
         frontDerailleurCheckBox = (CheckBox) getActivity().findViewById(R.id.front_derailleur_radio);
+        checkBoxes[i++] = frontDerailleurCheckBox;
         chainCheckBox = (CheckBox) getActivity().findViewById(R.id.chain_radio);
+        checkBoxes[i++] = chainCheckBox;
         rearBreakCheckBox = (CheckBox) getActivity().findViewById(R.id.rear_break_radio);
+        checkBoxes[i++] = rearBreakCheckBox;
         rearWheelCheckBox = (CheckBox) getActivity().findViewById(R.id.rear_wheel_radio);
+        checkBoxes[i++] = rearWheelCheckBox;
         rearDerailleurCheckBox = (CheckBox) getActivity().findViewById(R.id.rear_deraolleur_radio);
+        checkBoxes[i++] = rearDerailleurCheckBox;
         derailleurOrBrakeCableCheckBox = (CheckBox) getActivity().findViewById(R.id.cable_radio);
+        checkBoxes[i++] = derailleurOrBrakeCableCheckBox;
 
         //save bike fab
         FloatingActionButton fab_save =
@@ -154,7 +170,7 @@ public class AddEditBikeFragment extends Fragment implements AddEditBikeContract
                 mPresenter.saveBike(
                         //TODO: implement getting image
                         BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.logo),
-                        //get bike type from the radio group of bike types
+                        //TODO: implement get bike type from the radio group of bike types
                         getBikeType(typeRadioGroup.getCheckedRadioButtonId()),
                         //TODO: implement getting location
                         "50 Milk street, Boston, MA, USA",
@@ -191,23 +207,24 @@ public class AddEditBikeFragment extends Fragment implements AddEditBikeContract
             }
         });
     }
+
     //TODO: implement getting bike type
     private String getBikeType(int id) {
         switch (id) {
-            case(R.id.road_bike_radio):
-            case(R.id.mountain_bike_radio):
-            case(R.id.hybrid_bike_radio):
-            case(R.id.cruiser_bike_radio):
-            case(R.id.bmx_bike_radio):
+            case (R.id.road_bike_radio):
+            case (R.id.mountain_bike_radio):
+            case (R.id.hybrid_bike_radio):
+            case (R.id.cruiser_bike_radio):
+            case (R.id.bmx_bike_radio):
         }
         return "Road";
     }
 
     private boolean isBikeComplete() {
         switch (completeRadioGroup.getCheckedRadioButtonId()) {
-            case(R.id.complete_bike_yes_radio):
+            case (R.id.complete_bike_yes_radio):
                 return true;
-            case(R.id.complete_bike_no_radio):
+            case (R.id.complete_bike_no_radio):
                 return false;
             default:
                 return false;
@@ -217,6 +234,11 @@ public class AddEditBikeFragment extends Fragment implements AddEditBikeContract
     //TODO: get values from the bunch of checkboxes
     private boolean[] getPartsAvailable() {
         boolean[] res = new boolean[17];
+        for (int i = 0; i < res.length; i++) {
+            if (checkBoxes[i].isChecked()) {
+                res[i] = true;
+            }
+        }
         return res;
     }
 
@@ -231,31 +253,29 @@ public class AddEditBikeFragment extends Fragment implements AddEditBikeContract
 
     @Override
     public void showNoBikeFoundError() {
-        Toast.makeText(getContext(),R.string.empty_bike_message, Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), R.string.empty_bike_message, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showBikesList() {
+        Log.i(TAG, "showBikesList: in AddEditBikeFragment");
+
         getActivity().setResult(RESULT_OK);
         getActivity().finish();
     }
 
     @Override
     public void setLocation(String location) {
-
     }
-
 
     @Override
     public void setPicture(Bitmap image) {
-
     }
 
     @Override
     public boolean isComplete() {
         return false;
     }
-
 
 
     private void dispatchTakePictureIntent() {

@@ -36,13 +36,15 @@ import java.util.Map;
  * obtained from the server, by using the remote data source only if the local database doesn't
  * exist or is empty.
  */
-public class TasksRepository implements TasksDataSource {
+public class BikesRepository implements BikesDataSource {
 
-    private static TasksRepository INSTANCE = null;
+    ArrayList<Bike> listOfAvailableBikes= new ArrayList<>();
 
-    private final TasksDataSource mTasksRemoteDataSource;
+    private static BikesRepository INSTANCE = null;
 
-    private final TasksDataSource mTasksLocalDataSource;
+    private final BikesDataSource mTasksRemoteDataSource;
+
+    private final BikesDataSource mTasksLocalDataSource;
 
     /**
      * This variable has package local visibility so it can be accessed from tests.
@@ -56,8 +58,8 @@ public class TasksRepository implements TasksDataSource {
     boolean mCacheIsDirty = false;
 
     // Prevent direct instantiation.
-    private TasksRepository(@NonNull TasksDataSource tasksRemoteDataSource,
-                            @NonNull TasksDataSource tasksLocalDataSource) {
+    private BikesRepository(@NonNull BikesDataSource tasksRemoteDataSource,
+                            @NonNull BikesDataSource tasksLocalDataSource) {
         mTasksRemoteDataSource = checkNotNull(tasksRemoteDataSource);
         mTasksLocalDataSource = checkNotNull(tasksLocalDataSource);
     }
@@ -67,38 +69,43 @@ public class TasksRepository implements TasksDataSource {
      *
      * @param tasksRemoteDataSource the backend data source
      * @param tasksLocalDataSource  the device storage data source
-     * @return the {@link TasksRepository} instance
+     * @return the {@link BikesRepository} instance
      */
-    public static TasksRepository getInstance(TasksDataSource tasksRemoteDataSource,
-                                              TasksDataSource tasksLocalDataSource) {
+    public static BikesRepository getInstance(BikesDataSource tasksRemoteDataSource,
+                                              BikesDataSource tasksLocalDataSource) {
         if (INSTANCE == null) {
-            INSTANCE = new TasksRepository(tasksRemoteDataSource, tasksLocalDataSource);
+            INSTANCE = new BikesRepository(tasksRemoteDataSource, tasksLocalDataSource);
         }
         return INSTANCE;
     }
 
     /**
-     * Used to force {@link #getInstance(TasksDataSource, TasksDataSource)} to create a new instance
+     * Used to force {@link #getInstance(BikesDataSource, BikesDataSource)} to create a new instance
      * next time it's called.
      */
     public static void destroyInstance() {
         INSTANCE = null;
     }
 
+    @Override
+    public void addBike(Bike bike) {
+        listOfAvailableBikes.add(bike);
+    }
+
     /**
      * Gets tasks from cache, local data source (SQLite) or remote data source, whichever is
      * available first.
      * <p>
-     * Note: {@link LoadTasksCallback#onDataNotAvailable()} is fired if all data sources fail to
+     * Note: {@link LoadBikesCallback#onDataNotAvailable()} is fired if all data sources fail to
      * get the data.
      */
     @Override
-    public void getTasks(@NonNull final LoadTasksCallback callback) {
+    public void getTasks(@NonNull final LoadBikesCallback callback) {
         checkNotNull(callback);
 
         // Respond immediately with cache if available and not dirty
         if (mCachedTasks != null && !mCacheIsDirty) {
-            callback.onTasksLoaded(new ArrayList<>(mCachedTasks.values()));
+            callback.onBikesLoaded(new ArrayList<>(mCachedTasks.values()));
             return;
         }
 
@@ -107,11 +114,11 @@ public class TasksRepository implements TasksDataSource {
             getTasksFromRemoteDataSource(callback);
         } else {
             // Query the local storage if available. If not, query the network.
-            mTasksLocalDataSource.getTasks(new LoadTasksCallback() {
+            mTasksLocalDataSource.getTasks(new LoadBikesCallback() {
                 @Override
-                public void onTasksLoaded(List<Bike> bikes) {
+                public void onBikesLoaded(List<Bike> bikes) {
                     refreshCache(bikes);
-                    callback.onTasksLoaded(new ArrayList<>(mCachedTasks.values()));
+                    callback.onBikesLoaded(new ArrayList<>(mCachedTasks.values()));
                 }
 
                 @Override
@@ -201,11 +208,11 @@ public class TasksRepository implements TasksDataSource {
      * Gets tasks from local data source (sqlite) unless the table is new or empty. In that case it
      * uses the network data source. This is done to simplify the sample.
      * <p>
-     * Note: {@link GetTaskCallback#onDataNotAvailable()} is fired if both data sources fail to
+     * Note: {@link GetBikeCallback#onDataNotAvailable()} is fired if both data sources fail to
      * get the data.
      */
     @Override
-    public void getTask(@NonNull final String taskId, @NonNull final GetTaskCallback callback) {
+    public void getTask(@NonNull final String taskId, @NonNull final GetBikeCallback callback) {
         checkNotNull(taskId);
         checkNotNull(callback);
 
@@ -220,7 +227,7 @@ public class TasksRepository implements TasksDataSource {
         // Load from server/persisted if needed.
 
         // Is the task in the local data source? If not, query the network.
-        mTasksLocalDataSource.getTask(taskId, new GetTaskCallback() {
+        mTasksLocalDataSource.getTask(taskId, new GetBikeCallback() {
             @Override
             public void onTaskLoaded(Bike bike) {
                 // Do in memory cache update to keep the app UI up to date
@@ -233,7 +240,7 @@ public class TasksRepository implements TasksDataSource {
 
             @Override
             public void onDataNotAvailable() {
-                mTasksRemoteDataSource.getTask(taskId, new GetTaskCallback() {
+                mTasksRemoteDataSource.getTask(taskId, new GetBikeCallback() {
                     @Override
                     public void onTaskLoaded(Bike bike) {
                         // Do in memory cache update to keep the app UI up to date
@@ -254,7 +261,7 @@ public class TasksRepository implements TasksDataSource {
     }
 
     @Override
-    public void refreshTasks() {
+    public void refreshBikes() {
         mCacheIsDirty = true;
     }
 
@@ -277,13 +284,13 @@ public class TasksRepository implements TasksDataSource {
         mCachedTasks.remove(taskId);
     }
 
-    private void getTasksFromRemoteDataSource(@NonNull final LoadTasksCallback callback) {
-        mTasksRemoteDataSource.getTasks(new LoadTasksCallback() {
+    private void getTasksFromRemoteDataSource(@NonNull final LoadBikesCallback callback) {
+        mTasksRemoteDataSource.getTasks(new LoadBikesCallback() {
             @Override
-            public void onTasksLoaded(List<Bike> bikes) {
+            public void onBikesLoaded(List<Bike> bikes) {
                 refreshCache(bikes);
                 refreshLocalDataSource(bikes);
-                callback.onTasksLoaded(new ArrayList<>(mCachedTasks.values()));
+                callback.onBikesLoaded(new ArrayList<>(mCachedTasks.values()));
             }
 
             @Override

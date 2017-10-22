@@ -16,7 +16,9 @@
 
 package com.example.android.architecture.blueprints.todoapp.bikes;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,6 +28,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,65 +36,72 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditBikeActivity;
+import com.example.android.architecture.blueprints.todoapp.addeditbike.AddEditBikeActivity;
 import com.example.android.architecture.blueprints.todoapp.data.Bike;
-import com.example.android.architecture.blueprints.todoapp.taskdetail.TaskDetailActivity;
+import com.example.android.architecture.blueprints.todoapp.bikedetail.BikeDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Display a grid of {@link Bike}s. User can choose to view all, active or completed tasks.
  */
-public class TasksFragment extends Fragment implements TasksContract.View {
+public class BikesFragment extends Fragment implements BikesContract.View {
 
-    private TasksContract.Presenter mPresenter;
+    private BikesContract.Presenter mPresenter;
 
-    private TasksAdapter mListAdapter;
+    private BikesAdapter mListAdapter;
 
-    private View mNoTasksView;
+    private View mNoBikesView;
 
-    private ImageView mNoTaskIcon;
+    private ImageView mNoBikeIcon;
 
-    private TextView mNoTaskMainView;
+    private TextView mNoBikeMainView;
 
-    private TextView mNoTaskAddView;
+    private TextView mNoBikeAddView;
 
-    private LinearLayout mTasksView;
+    private LinearLayout mBikesView;
 
     private TextView mFilteringLabelView;
 
-    public TasksFragment() {
+    public BikesFragment() {
         // Requires empty public constructor
     }
 
-    public static TasksFragment newInstance() {
-        return new TasksFragment();
+    public static BikesFragment newInstance() {
+        return new BikesFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate: BikesFragment");
         super.onCreate(savedInstanceState);
-        mListAdapter = new TasksAdapter(new ArrayList<Bike>(0), mItemListener);
+        //TODO create bike without context
+//        mListAdapter = new BikesAdapter(new ArrayList<Bike>(0), mItemListener);
+        //TODO this is just to prove the idea
+        mListAdapter = new BikesAdapter(new ArrayList<Bike>(0), mItemListener, getContext());
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Log.i(TAG, "onResume: BikesFragment");
         mPresenter.start();
+        //TODO: this is extra added
+        mListAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void setPresenter(@NonNull TasksContract.Presenter presenter) {
+    public void setPresenter(@NonNull BikesContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
 
@@ -107,17 +117,17 @@ public class TasksFragment extends Fragment implements TasksContract.View {
         View root = inflater.inflate(R.layout.tasks_frag, container, false);
 
         // Set up tasks view
-        ListView listView = (ListView) root.findViewById(R.id.tasks_list);
+        ListView listView = (ListView) root.findViewById(R.id.bikes_list);
         listView.setAdapter(mListAdapter);
         mFilteringLabelView = (TextView) root.findViewById(R.id.filteringLabel);
-        mTasksView = (LinearLayout) root.findViewById(R.id.tasksLL);
+        mBikesView = (LinearLayout) root.findViewById(R.id.bikesLL);
 
         // Set up  no tasks view
-        mNoTasksView = root.findViewById(R.id.noTasks);
-        mNoTaskIcon = (ImageView) root.findViewById(R.id.noTasksIcon);
-        mNoTaskMainView = (TextView) root.findViewById(R.id.noTasksMain);
-        mNoTaskAddView = (TextView) root.findViewById(R.id.noTasksAdd);
-        mNoTaskAddView.setOnClickListener(new View.OnClickListener() {
+        mNoBikesView = root.findViewById(R.id.noBikes);
+        mNoBikeIcon = (ImageView) root.findViewById(R.id.noBikesIcon);
+        mNoBikeMainView = (TextView) root.findViewById(R.id.noBikesMain);
+        mNoBikeAddView = (TextView) root.findViewById(R.id.noTasksAdd);
+        mNoBikeAddView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showAddTask();
@@ -189,13 +199,13 @@ public class TasksFragment extends Fragment implements TasksContract.View {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.active:
-                        mPresenter.setFiltering(TasksFilterType.ACTIVE_TASKS);
+                        mPresenter.setFiltering(BikesFilterType.ACTIVE_TASKS);
                         break;
                     case R.id.completed:
-                        mPresenter.setFiltering(TasksFilterType.COMPLETED_TASKS);
+                        mPresenter.setFiltering(BikesFilterType.COMPLETED_TASKS);
                         break;
                     default:
-                        mPresenter.setFiltering(TasksFilterType.ALL_TASKS);
+                        mPresenter.setFiltering(BikesFilterType.ALL_BIKES);
                         break;
                 }
                 mPresenter.loadTasks(false);
@@ -207,22 +217,12 @@ public class TasksFragment extends Fragment implements TasksContract.View {
     }
 
     /**
-     * Listener for clicks on tasks in the ListView.
+     * Listener for clicks on bikes in the ListView.
      */
-    TaskItemListener mItemListener = new TaskItemListener() {
+    BikeItemListener mItemListener = new BikeItemListener() {
         @Override
-        public void onTaskClick(Bike clickedBike) {
-            mPresenter.openTaskDetails(clickedBike);
-        }
-
-        @Override
-        public void onCompleteTaskClick(Bike completedBike) {
-            mPresenter.completeTask(completedBike);
-        }
-
-        @Override
-        public void onActivateTaskClick(Bike activatedBike) {
-            mPresenter.activateTask(activatedBike);
+        public void onBikeClick(Bike clickedBike) {
+            mPresenter.openBikeDetails(clickedBike);
         }
     };
 
@@ -245,17 +245,17 @@ public class TasksFragment extends Fragment implements TasksContract.View {
     }
 
     @Override
-    public void showTasks(List<Bike> bikes) {
+    public void showBikes(List<Bike> bikes) {
         mListAdapter.replaceData(bikes);
 
-        mTasksView.setVisibility(View.VISIBLE);
-        mNoTasksView.setVisibility(View.GONE);
+        mBikesView.setVisibility(View.VISIBLE);
+        mNoBikesView.setVisibility(View.GONE);
     }
 
     @Override
     public void showNoActiveTasks() {
         showNoTasksViews(
-                getResources().getString(R.string.no_tasks_active),
+                getResources().getString(R.string.no_bikes_active),
                 R.drawable.ic_check_circle_24dp,
                 false
         );
@@ -264,7 +264,7 @@ public class TasksFragment extends Fragment implements TasksContract.View {
     @Override
     public void showNoTasks() {
         showNoTasksViews(
-                getResources().getString(R.string.no_tasks_all),
+                getResources().getString(R.string.no_bikes_all),
                 R.drawable.ic_assignment_turned_in_24dp,
                 false
         );
@@ -273,7 +273,7 @@ public class TasksFragment extends Fragment implements TasksContract.View {
     @Override
     public void showNoCompletedTasks() {
         showNoTasksViews(
-                getResources().getString(R.string.no_tasks_completed),
+                getResources().getString(R.string.no_bikes_completed),
                 R.drawable.ic_verified_user_24dp,
                 false
         );
@@ -285,12 +285,12 @@ public class TasksFragment extends Fragment implements TasksContract.View {
     }
 
     private void showNoTasksViews(String mainText, int iconRes, boolean showAddView) {
-        mTasksView.setVisibility(View.GONE);
-        mNoTasksView.setVisibility(View.VISIBLE);
+        mBikesView.setVisibility(View.GONE);
+        mNoBikesView.setVisibility(View.VISIBLE);
 
-        mNoTaskMainView.setText(mainText);
-        mNoTaskIcon.setImageDrawable(getResources().getDrawable(iconRes));
-        mNoTaskAddView.setVisibility(showAddView ? View.VISIBLE : View.GONE);
+        mNoBikeMainView.setText(mainText);
+        mNoBikeIcon.setImageDrawable(getResources().getDrawable(iconRes));
+        mNoBikeAddView.setVisibility(showAddView ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -315,11 +315,12 @@ public class TasksFragment extends Fragment implements TasksContract.View {
     }
 
     @Override
-    public void showTaskDetailsUi(String taskId) {
-        // in it's own Activity, since it makes more sense that way and it gives us the flexibility
+    public void showBikeDetailsUi(String bikeId) {
+        // in it's own Activity, since it makes more
+        // sense that way and it gives us the flexibility
         // to show some Intent stubbing.
-        Intent intent = new Intent(getContext(), TaskDetailActivity.class);
-        intent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, taskId);
+        Intent intent = new Intent(getContext(), BikeDetailActivity.class);
+        intent.putExtra(BikeDetailActivity.EXTRA_BIKE_ID, bikeId);
         startActivity(intent);
     }
 
@@ -352,15 +353,37 @@ public class TasksFragment extends Fragment implements TasksContract.View {
         return isAdded();
     }
 
-    private static class TasksAdapter extends BaseAdapter {
+    private static class BikesAdapter extends BaseAdapter {
 
         private List<Bike> mBikes;
-        private TaskItemListener mItemListener;
+        private BikeItemListener mItemListener;
 
-        public TasksAdapter(List<Bike> bikes, TaskItemListener itemListener) {
+        public BikesAdapter(List<Bike> bikes, BikeItemListener itemListener) {
             setList(bikes);
             mItemListener = itemListener;
         }
+
+        public BikesAdapter(List<Bike> bikes, BikeItemListener itemListener, Context ctx) {
+            setList(bikes);
+
+            //TODO remove this test data
+            bikes.add(new Bike(
+                    BitmapFactory.decodeResource(ctx.getResources(), R.drawable.logo),
+                    "Road",
+                    new boolean[18],
+                    "50 Harvard ave, Brighton, MA USA",
+                    true));
+
+            bikes.add(new Bike(
+                    BitmapFactory.decodeResource(ctx.getResources(), R.drawable.logo),
+                    "Mountain",
+                    new boolean[18],
+                    "88 Huntington road, Newton, MA",
+                    false));
+
+            mItemListener = itemListener;
+        }
+
 
         public void replaceData(List<Bike> bikes) {
             setList(bikes);
@@ -391,41 +414,21 @@ public class TasksFragment extends Fragment implements TasksContract.View {
             View rowView = view;
             if (rowView == null) {
                 LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-                rowView = inflater.inflate(R.layout.task_item, viewGroup, false);
+                rowView = inflater.inflate(R.layout.bike_list_item, viewGroup, false);
             }
 
             final Bike bike = getItem(i);
 
-            TextView titleTV = (TextView) rowView.findViewById(R.id.title);
-            titleTV.setText(bike.getTitleForList());
-
-            CheckBox completeCB = (CheckBox) rowView.findViewById(R.id.complete);
-
-            // Active/completed bike UI
-            completeCB.setChecked(bike.isCompleted());
-            if (bike.isCompleted()) {
-                rowView.setBackgroundDrawable(viewGroup.getContext()
-                        .getResources().getDrawable(R.drawable.list_completed_touch_feedback));
-            } else {
-                rowView.setBackgroundDrawable(viewGroup.getContext()
-                        .getResources().getDrawable(R.drawable.touch_feedback));
-            }
-
-            completeCB.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!bike.isCompleted()) {
-                        mItemListener.onCompleteTaskClick(bike);
-                    } else {
-                        mItemListener.onActivateTaskClick(bike);
-                    }
-                }
-            });
+            TextView titleTV = (TextView) rowView.findViewById(R.id.bike_type_item);
+//            titleTV.setText(bike.getTitleForList());
+            titleTV.setText(mBikes.get(i).getDescription());
+            ImageView bikesThumbnail = (ImageView) rowView.findViewById(R.id.bikes_thumbnail);
+            bikesThumbnail.setImageBitmap(mBikes.get(i).getBikeImage());
 
             rowView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mItemListener.onTaskClick(bike);
+                    mItemListener.onBikeClick(bike);
                 }
             });
 
@@ -433,13 +436,13 @@ public class TasksFragment extends Fragment implements TasksContract.View {
         }
     }
 
-    public interface TaskItemListener {
+    public interface BikeItemListener {
 
-        void onTaskClick(Bike clickedBike);
+        void onBikeClick(Bike clickedBike);
 
-        void onCompleteTaskClick(Bike completedBike);
-
-        void onActivateTaskClick(Bike activatedBike);
+//        void onCompleteTaskClick(Bike completedBike);
+//
+//        void onActivateTaskClick(Bike activatedBike);
     }
 
 }

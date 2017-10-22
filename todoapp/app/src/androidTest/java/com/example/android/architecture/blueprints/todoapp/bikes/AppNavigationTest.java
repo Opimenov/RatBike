@@ -44,7 +44,7 @@ import static com.example.android.architecture.blueprints.todoapp.custom.action.
 import static junit.framework.Assert.fail;
 
 /**
- * Tests for the {@link DrawerLayout} layout component in {@link TasksActivity} which manages
+ * Tests for the {@link DrawerLayout} layout component in {@link BikesActivity} which manages
  * navigation within the app.
  */
 @RunWith(AndroidJUnit4.class)
@@ -59,8 +59,8 @@ public class AppNavigationTest {
      * blocks of Junit tests.
      */
     @Rule
-    public ActivityTestRule<TasksActivity> mActivityTestRule =
-            new ActivityTestRule<>(TasksActivity.class);
+    public ActivityTestRule<BikesActivity> mActivityTestRule =
+            new ActivityTestRule<>(BikesActivity.class);
 
     @Test
     public void clickOnStatisticsNavigationItem_ShowsStatisticsScreen() {
@@ -77,7 +77,7 @@ public class AppNavigationTest {
         openTasksScreen();
 
         // Check that Tasks Activity was opened.
-        onView(withId(R.id.tasksContainer)).check(matches(isDisplayed()));
+        onView(withId(R.id.bikesContainer)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -103,7 +103,7 @@ public class AppNavigationTest {
         pressBack();
 
         // Check that Tasks Activity was restored.
-        onView(withId(R.id.tasksContainer)).check(matches(isDisplayed()));
+        onView(withId(R.id.bikesContainer)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -114,7 +114,7 @@ public class AppNavigationTest {
 
     @Test
     public void backFromTasksScreenAfterStats_ExitsApp() {
-        // This test checks that TasksActivity is a parent of StatisticsActivity
+        // This test checks that BikesActivity is a parent of StatisticsActivity
 
         // Open the stats screen
         openStatisticsScreen();

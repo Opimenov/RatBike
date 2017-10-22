@@ -28,7 +28,7 @@ import android.widget.ListView;
 import com.example.android.architecture.blueprints.todoapp.Injection;
 import com.example.android.architecture.blueprints.todoapp.R;
 import com.example.android.architecture.blueprints.todoapp.TestUtils;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
+import com.example.android.architecture.blueprints.todoapp.data.source.BikesDataSource;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -79,12 +79,12 @@ public class TasksScreenTest {
      * blocks of Junit tests.
      */
     @Rule
-    public ActivityTestRule<TasksActivity> mTasksActivityTestRule =
-            new ActivityTestRule<TasksActivity>(TasksActivity.class) {
+    public ActivityTestRule<BikesActivity> mTasksActivityTestRule =
+            new ActivityTestRule<BikesActivity>(BikesActivity.class) {
 
                 /**
                  * To avoid a long list of tasks and the need to scroll through the list to find a
-                 * task, we call {@link TasksDataSource#deleteAllTasks()} before each test.
+                 * task, we call {@link BikesDataSource#deleteAllTasks()} before each test.
                  */
                 @Override
                 protected void beforeActivityLaunched() {
@@ -141,7 +141,7 @@ public class TasksScreenTest {
         onView(withText(TITLE1)).perform(click());
 
         // Click on the edit task button
-        onView(withId(R.id.fab_edit_task)).perform(click());
+        onView(withId(R.id.fab_edit_bike)).perform(click());
 
         String editTaskTitle = TITLE2;
         String editTaskDescription = "New Description";
@@ -319,7 +319,7 @@ public class TasksScreenTest {
         onView(withContentDescription(getToolbarNavigationContentDescription())).perform(click());
 
         // Check that the task is marked as completed
-        onView(allOf(withId(R.id.complete),
+        onView(allOf(withId(R.id.bikes_thumbnail),
                 hasSibling(withText(TITLE1)))).check(matches(isChecked()));
     }
 
@@ -341,7 +341,7 @@ public class TasksScreenTest {
         onView(withContentDescription(getToolbarNavigationContentDescription())).perform(click());
 
         // Check that the task is marked as active
-        onView(allOf(withId(R.id.complete),
+        onView(allOf(withId(R.id.bikes_thumbnail),
                 hasSibling(withText(TITLE1)))).check(matches(not(isChecked())));
     }
 
@@ -365,7 +365,7 @@ public class TasksScreenTest {
         onView(withContentDescription(getToolbarNavigationContentDescription())).perform(click());
 
         // Check that the task is marked as active
-        onView(allOf(withId(R.id.complete),
+        onView(allOf(withId(R.id.bikes_thumbnail),
                 hasSibling(withText(TITLE1)))).check(matches(not(isChecked())));
     }
 
@@ -390,7 +390,7 @@ public class TasksScreenTest {
         onView(withContentDescription(getToolbarNavigationContentDescription())).perform(click());
 
         // Check that the task is marked as active
-        onView(allOf(withId(R.id.complete),
+        onView(allOf(withId(R.id.bikes_thumbnail),
                 hasSibling(withText(TITLE1)))).check(matches(isChecked()));
     }
 
@@ -445,7 +445,7 @@ public class TasksScreenTest {
         onView(withText(TITLE1)).perform(click());
 
         // Click on the edit task button
-        onView(withId(R.id.fab_edit_task)).perform(click());
+        onView(withId(R.id.fab_edit_bike)).perform(click());
 
         // Change task title (but don't save)
         onView(withId(R.id.add_task_title))
@@ -468,7 +468,7 @@ public class TasksScreenTest {
         onView(withText(TITLE1)).perform(click());
 
         // Click on the edit task button
-        onView(withId(R.id.fab_edit_task)).perform(click());
+        onView(withId(R.id.fab_edit_bike)).perform(click());
 
         // Rotate the screen
         TestUtils.rotateOrientation(getCurrentActivity());
@@ -519,7 +519,7 @@ public class TasksScreenTest {
     }
 
     private void clickCheckBoxForTask(String title) {
-        onView(allOf(withId(R.id.complete), hasSibling(withText(title)))).perform(click());
+        onView(allOf(withId(R.id.bikes_thumbnail), hasSibling(withText(title)))).perform(click());
     }
 
     private String getText(int stringId) {

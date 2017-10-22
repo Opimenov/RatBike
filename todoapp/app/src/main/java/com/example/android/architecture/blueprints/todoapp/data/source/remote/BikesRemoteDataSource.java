@@ -18,21 +18,24 @@ package com.example.android.architecture.blueprints.todoapp.data.source.remote;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.android.architecture.blueprints.todoapp.data.Bike;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
+import com.example.android.architecture.blueprints.todoapp.data.source.BikesDataSource;
 import com.google.common.collect.Lists;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Implementation of the data source that adds a latency simulating network.
  */
-public class TasksRemoteDataSource implements TasksDataSource {
+public class BikesRemoteDataSource implements BikesDataSource {
 
-    private static TasksRemoteDataSource INSTANCE;
+    private static BikesRemoteDataSource INSTANCE;
 
     private static final int SERVICE_LATENCY_IN_MILLIS = 5000;
 
@@ -44,15 +47,15 @@ public class TasksRemoteDataSource implements TasksDataSource {
         addTask("Finish bridge in Tacoma", "Found awesome girders at half the cost!");
     }
 
-    public static TasksRemoteDataSource getInstance() {
+    public static BikesRemoteDataSource getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new TasksRemoteDataSource();
+            INSTANCE = new BikesRemoteDataSource();
         }
         return INSTANCE;
     }
 
     // Prevent direct instantiation.
-    private TasksRemoteDataSource() {}
+    private BikesRemoteDataSource() {}
 
     private static void addTask(String title, String description) {
         //TODO: implement this
@@ -60,30 +63,35 @@ public class TasksRemoteDataSource implements TasksDataSource {
 //        TASKS_SERVICE_DATA.put(newBike.getId(), newBike);
     }
 
+    @Override
+    public void addBike(Bike bike) {
+        Log.i(TAG, "addBike: in BikesRemoteDataSource");
+    }
+
     /**
-     * Note: {@link LoadTasksCallback#onDataNotAvailable()} is never fired. In a real remote data
+     * Note: {@link LoadBikesCallback#onDataNotAvailable()} is never fired. In a real remote data
      * source implementation, this would be fired if the server can't be contacted or the server
      * returns an error.
      */
     @Override
-    public void getTasks(final @NonNull LoadTasksCallback callback) {
+    public void getTasks(final @NonNull LoadBikesCallback callback) {
         // Simulate network by delaying the execution.
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                callback.onTasksLoaded(Lists.newArrayList(TASKS_SERVICE_DATA.values()));
+                callback.onBikesLoaded(Lists.newArrayList(TASKS_SERVICE_DATA.values()));
             }
         }, SERVICE_LATENCY_IN_MILLIS);
     }
 
     /**
-     * Note: {@link GetTaskCallback#onDataNotAvailable()} is never fired. In a real remote data
+     * Note: {@link GetBikeCallback#onDataNotAvailable()} is never fired. In a real remote data
      * source implementation, this would be fired if the server can't be contacted or the server
      * returns an error.
      */
     @Override
-    public void getTask(@NonNull String taskId, final @NonNull GetTaskCallback callback) {
+    public void getTask(@NonNull String taskId, final @NonNull GetBikeCallback callback) {
         final Bike bike = TASKS_SERVICE_DATA.get(taskId);
 
         // Simulate network by delaying the execution.
@@ -139,7 +147,7 @@ public class TasksRemoteDataSource implements TasksDataSource {
     }
 
     @Override
-    public void refreshTasks() {
+    public void refreshBikes() {
         // Not required because the {@link TasksRepository} handles the logic of refreshing the
         // tasks from all the available data sources.
     }

@@ -35,14 +35,14 @@ import com.example.android.architecture.blueprints.todoapp.statistics.Statistics
 import com.example.android.architecture.blueprints.todoapp.util.ActivityUtils;
 import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource;
 
-public class TasksActivity extends AppCompatActivity {
+public class BikesActivity extends AppCompatActivity {
     private static final String TAG = "..TAG..";
 
     private static final String CURRENT_FILTERING_KEY = "CURRENT_FILTERING_KEY";
 
     private DrawerLayout mDrawerLayout;
 
-    private TasksPresenter mTasksPresenter;
+    private BikesPresenter mBikesPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,30 +68,30 @@ public class TasksActivity extends AppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
-        TasksFragment tasksFragment =
-                (TasksFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-        if (tasksFragment == null) {
+        BikesFragment bikesFragment =
+                (BikesFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        if (bikesFragment == null) {
             // Create the fragment
-            tasksFragment = TasksFragment.newInstance();
+            bikesFragment = BikesFragment.newInstance();
             ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(), tasksFragment, R.id.contentFrame);
+                    getSupportFragmentManager(), bikesFragment, R.id.contentFrame);
         }
 
         // Create the presenter
-        mTasksPresenter = new TasksPresenter(
-                Injection.provideTasksRepository(getApplicationContext()), tasksFragment);
+        mBikesPresenter = new BikesPresenter(
+                Injection.provideTasksRepository(getApplicationContext()), bikesFragment);
 
         // Load previously saved state, if available.
         if (savedInstanceState != null) {
-            TasksFilterType currentFiltering =
-                    (TasksFilterType) savedInstanceState.getSerializable(CURRENT_FILTERING_KEY);
-            mTasksPresenter.setFiltering(currentFiltering);
+            BikesFilterType currentFiltering =
+                    (BikesFilterType) savedInstanceState.getSerializable(CURRENT_FILTERING_KEY);
+            mBikesPresenter.setFiltering(currentFiltering);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(CURRENT_FILTERING_KEY, mTasksPresenter.getFiltering());
+        outState.putSerializable(CURRENT_FILTERING_KEY, mBikesPresenter.getFiltering());
 
         super.onSaveInstanceState(outState);
     }
@@ -118,7 +118,7 @@ public class TasksActivity extends AppCompatActivity {
                                 break;
                             case R.id.statistics_navigation_menu_item:
                                 Intent intent =
-                                        new Intent(TasksActivity.this, StatisticsActivity.class);
+                                        new Intent(BikesActivity.this, StatisticsActivity.class);
                                 startActivity(intent);
                                 break;
                             default:

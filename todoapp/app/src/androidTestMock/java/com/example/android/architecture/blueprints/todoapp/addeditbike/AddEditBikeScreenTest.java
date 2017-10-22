@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.addedittask;
+package com.example.android.architecture.blueprints.todoapp.addeditbike;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -31,8 +31,8 @@ import android.view.View;
 import com.example.android.architecture.blueprints.todoapp.R;
 import com.example.android.architecture.blueprints.todoapp.TestUtils;
 import com.example.android.architecture.blueprints.todoapp.data.Bike;
-import com.example.android.architecture.blueprints.todoapp.data.FakeTasksRemoteDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
+import com.example.android.architecture.blueprints.todoapp.data.FakeBikesRemoteDataSource;
+import com.example.android.architecture.blueprints.todoapp.data.source.BikesRepository;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -41,10 +41,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.example.android.architecture.blueprints.todoapp.R.id.toolbar;
 
@@ -102,8 +100,8 @@ public class AddEditBikeScreenTest {
     @Test
     public void toolbarTitle_editTask_persistsRotation() {
         // Put a task in the repository and start the activity to edit it
-        TasksRepository.destroyInstance();
-        FakeTasksRemoteDataSource.getInstance().addTasks(new Bike("Title1", "", TASK_ID, false));
+        BikesRepository.destroyInstance();
+        FakeBikesRemoteDataSource.getInstance().addTasks(new Bike("Title1", "", TASK_ID, false));
         launchNewTaskActivity(TASK_ID);
 
         // Check that the toolbar shows the correct title

@@ -27,17 +27,17 @@ import java.util.List;
 /**
  * This specifies the contract between the view and the presenter.
  */
-public interface TasksContract {
+public interface BikesContract {
 
     interface View extends BaseView<Presenter> {
 
         void setLoadingIndicator(boolean active);
 
-        void showTasks(List<Bike> bikes);
+        void showBikes(List<Bike> bikes);
 
         void showAddTask();
 
-        void showTaskDetailsUi(String taskId);
+        void showBikeDetailsUi(String taskId);
 
         void showTaskMarkedComplete();
 
@@ -74,7 +74,7 @@ public interface TasksContract {
 
         void addNewTask();
 
-        void openTaskDetails(@NonNull Bike requestedBike);
+        void openBikeDetails(@NonNull Bike requestedBike);
 
         void completeTask(@NonNull Bike completedBike);
 
@@ -82,8 +82,8 @@ public interface TasksContract {
 
         void clearCompletedTasks();
 
-        void setFiltering(TasksFilterType requestType);
+        void setFiltering(BikesFilterType requestType);
 
-        TasksFilterType getFiltering();
+        BikesFilterType getFiltering();
     }
 }

@@ -23,32 +23,36 @@ import com.example.android.architecture.blueprints.todoapp.data.Bike;
 import java.util.List;
 
 /**
- * Main entry point for accessing tasks data.
+ * Main entry point for accessing bikes data.
  * <p>
  * For simplicity, only getTasks() and getTask() have callbacks. Consider adding callbacks to other
  * methods to inform the user of network/database errors or successful operations.
  * For example, when a new task is created, it's synchronously stored in cache but usually every
  * operation on database or network should be executed in a different thread.
  */
-public interface TasksDataSource {
+public interface BikesDataSource {
 
-    interface LoadTasksCallback {
+    interface LoadBikesCallback {
 
-        void onTasksLoaded(List<Bike> bikes);
+        void onBikesLoaded(List<Bike> bikes);
 
         void onDataNotAvailable();
     }
 
-    interface GetTaskCallback {
+    interface GetBikeCallback {
 
         void onTaskLoaded(Bike bike);
 
         void onDataNotAvailable();
     }
 
-    void getTasks(@NonNull LoadTasksCallback callback);
+    //TODO: implement saving bikes in remote or locally if wifi is not available
+    void addBike(Bike bike);
 
-    void getTask(@NonNull String taskId, @NonNull GetTaskCallback callback);
+
+    void getTasks(@NonNull LoadBikesCallback callback);
+
+    void getTask(@NonNull String taskId, @NonNull GetBikeCallback callback);
 
     void saveTask(@NonNull Bike bike);
 
@@ -62,7 +66,7 @@ public interface TasksDataSource {
 
     void clearCompletedTasks();
 
-    void refreshTasks();
+    void refreshBikes();
 
     void deleteAllTasks();
 

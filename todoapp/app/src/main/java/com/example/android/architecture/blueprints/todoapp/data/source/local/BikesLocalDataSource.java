@@ -23,7 +23,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
 import com.example.android.architecture.blueprints.todoapp.data.Bike;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
+import com.example.android.architecture.blueprints.todoapp.data.source.BikesDataSource;
 import com.example.android.architecture.blueprints.todoapp.data.source.local.TasksPersistenceContract.TaskEntry;
 
 import java.util.ArrayList;
@@ -35,31 +35,36 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Concrete implementation of a data source as a db.
  */
-public class TasksLocalDataSource implements TasksDataSource {
+public class BikesLocalDataSource implements BikesDataSource {
 
-    private static TasksLocalDataSource INSTANCE;
+    private static BikesLocalDataSource INSTANCE;
 
     private TasksDbHelper mDbHelper;
 
     // Prevent direct instantiation.
-    private TasksLocalDataSource(@NonNull Context context) {
+    private BikesLocalDataSource(@NonNull Context context) {
         checkNotNull(context);
         mDbHelper = new TasksDbHelper(context);
     }
 
-    public static TasksLocalDataSource getInstance(@NonNull Context context) {
+    public static BikesLocalDataSource getInstance(@NonNull Context context) {
         if (INSTANCE == null) {
-            INSTANCE = new TasksLocalDataSource(context);
+            INSTANCE = new BikesLocalDataSource(context);
         }
         return INSTANCE;
     }
 
+    @Override
+    public void addBike(Bike bike) {
+        //TODO implement this
+    }
+
     /**
-     * Note: {@link LoadTasksCallback#onDataNotAvailable()} is fired if the database doesn't exist
+     * Note: {@link LoadBikesCallback#onDataNotAvailable()} is fired if the database doesn't exist
      * or the table is empty.
      */
     @Override
-    public void getTasks(@NonNull LoadTasksCallback callback) {
+    public void getTasks(@NonNull LoadBikesCallback callback) {
         List<Bike> bikes = new ArrayList<Bike>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
@@ -96,17 +101,17 @@ public class TasksLocalDataSource implements TasksDataSource {
             // This will be called if the table is new or just empty.
             callback.onDataNotAvailable();
         } else {
-            callback.onTasksLoaded(bikes);
+            callback.onBikesLoaded(bikes);
         }
 
     }
 
     /**
-     * Note: {@link GetTaskCallback#onDataNotAvailable()} is fired if the {@link Bike} isn't
+     * Note: {@link GetBikeCallback#onDataNotAvailable()} is fired if the {@link Bike} isn't
      * found.
      */
     @Override
-    public void getTask(@NonNull String taskId, @NonNull GetTaskCallback callback) {
+    public void getTask(@NonNull String taskId, @NonNull GetBikeCallback callback) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
@@ -181,7 +186,7 @@ public class TasksLocalDataSource implements TasksDataSource {
 
     @Override
     public void completeTask(@NonNull String taskId) {
-        // Not required for the local data source because the {@link TasksRepository} handles
+        // Not required for the local data source because the {@link BikesRepository} handles
         // converting from a {@code taskId} to a {@link task} using its cached data.
     }
 
@@ -202,7 +207,7 @@ public class TasksLocalDataSource implements TasksDataSource {
 
     @Override
     public void activateTask(@NonNull String taskId) {
-        // Not required for the local data source because the {@link TasksRepository} handles
+        // Not required for the local data source because the {@link BikesRepository} handles
         // converting from a {@code taskId} to a {@link task} using its cached data.
     }
 
@@ -219,8 +224,8 @@ public class TasksLocalDataSource implements TasksDataSource {
     }
 
     @Override
-    public void refreshTasks() {
-        // Not required because the {@link TasksRepository} handles the logic of refreshing the
+    public void refreshBikes() {
+        // Not required because the {@link BikesRepository} handles the logic of refreshing the
         // tasks from all the available data sources.
     }
 

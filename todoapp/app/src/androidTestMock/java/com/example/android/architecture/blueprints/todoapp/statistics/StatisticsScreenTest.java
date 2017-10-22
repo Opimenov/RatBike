@@ -23,10 +23,10 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.test.filters.LargeTest;
 
 import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.data.FakeTasksRemoteDataSource;
+import com.example.android.architecture.blueprints.todoapp.data.FakeBikesRemoteDataSource;
 import com.example.android.architecture.blueprints.todoapp.data.Bike;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
-import com.example.android.architecture.blueprints.todoapp.taskdetail.TaskDetailActivity;
+import com.example.android.architecture.blueprints.todoapp.data.source.BikesRepository;
+import com.example.android.architecture.blueprints.todoapp.bikedetail.BikeDetailActivity;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -58,7 +58,7 @@ public class StatisticsScreenTest {
             new ActivityTestRule<>(StatisticsActivity.class, true, false);
 
     /**
-     * Setup your test fixture with a fake task id. The {@link TaskDetailActivity} is started with
+     * Setup your test fixture with a fake task id. The {@link BikeDetailActivity} is started with
      * a particular task id, which is then loaded from the service API.
      *
      * <p>
@@ -69,9 +69,9 @@ public class StatisticsScreenTest {
     @Before
     public void intentWithStubbedTaskId() {
         // Given some tasks
-        TasksRepository.destroyInstance();
-        FakeTasksRemoteDataSource.getInstance().addTasks(new Bike("Title1", "", false));
-        FakeTasksRemoteDataSource.getInstance().addTasks(new Bike("Title2", "", true));
+        BikesRepository.destroyInstance();
+        FakeBikesRemoteDataSource.getInstance().addTasks(new Bike("Title1", "", false));
+        FakeBikesRemoteDataSource.getInstance().addTasks(new Bike("Title2", "", true));
 
         // Lazily start the Activity from the ActivityTestRule
         Intent startIntent = new Intent();

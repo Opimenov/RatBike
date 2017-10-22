@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.taskdetail;
+package com.example.android.architecture.blueprints.todoapp.bikedetail;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,8 +25,8 @@ import android.support.test.filters.LargeTest;
 import com.example.android.architecture.blueprints.todoapp.R;
 import com.example.android.architecture.blueprints.todoapp.TestUtils;
 import com.example.android.architecture.blueprints.todoapp.data.Bike;
-import com.example.android.architecture.blueprints.todoapp.data.FakeTasksRemoteDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
+import com.example.android.architecture.blueprints.todoapp.data.FakeBikesRemoteDataSource;
+import com.example.android.architecture.blueprints.todoapp.data.source.BikesRepository;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -74,8 +74,8 @@ public class BikeDetailScreenTest {
      * Activity under test, so you can control the Intent that is used to start the target Activity.
      */
     @Rule
-    public ActivityTestRule<TaskDetailActivity> mTaskDetailActivityTestRule =
-            new ActivityTestRule<>(TaskDetailActivity.class, true /* Initial touch mode  */,
+    public ActivityTestRule<BikeDetailActivity> mTaskDetailActivityTestRule =
+            new ActivityTestRule<>(BikeDetailActivity.class, true /* Initial touch mode  */,
                     false /* Lazily launch activity */);
 
     private void loadActiveTask() {
@@ -87,7 +87,7 @@ public class BikeDetailScreenTest {
     }
 
     /**
-     * Setup your test fixture with a fake bike id. The {@link TaskDetailActivity} is started with
+     * Setup your test fixture with a fake bike id. The {@link BikeDetailActivity} is started with
      * a particular bike id, which is then loaded from the service API.
      *
      * <p>
@@ -97,12 +97,12 @@ public class BikeDetailScreenTest {
      */
     private void startActivityWithWithStubbedTask(Bike bike) {
         // Add a bike stub to the fake service api layer.
-        TasksRepository.destroyInstance();
-        FakeTasksRemoteDataSource.getInstance().addTasks(bike);
+        BikesRepository.destroyInstance();
+        FakeBikesRemoteDataSource.getInstance().addTasks(bike);
 
         // Lazily start the Activity from the ActivityTestRule this time to inject the start Intent
         Intent startIntent = new Intent();
-        startIntent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, bike.getId());
+        startIntent.putExtra(BikeDetailActivity.EXTRA_BIKE_ID, bike.getId());
         mTaskDetailActivityTestRule.launchActivity(startIntent);
     }
 

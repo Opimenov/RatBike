@@ -14,36 +14,36 @@
  * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.taskdetail;
+package com.example.android.architecture.blueprints.todoapp.bikedetail;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.example.android.architecture.blueprints.todoapp.data.Bike;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
+import com.example.android.architecture.blueprints.todoapp.data.source.BikesRepository;
+import com.example.android.architecture.blueprints.todoapp.data.source.BikesDataSource;
 import com.google.common.base.Strings;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Listens to user actions from the UI ({@link TaskDetailFragment}), retrieves the data and updates
+ * Listens to user actions from the UI ({@link BikeDetailFragment}), retrieves the data and updates
  * the UI as required.
  */
-public class TaskDetailPresenter implements TaskDetailContract.Presenter {
+public class BikeDetailPresenter implements BikeDetailContract.Presenter {
 
-    private final TasksRepository mTasksRepository;
+    private final BikesRepository mBikesRepository;
 
-    private final TaskDetailContract.View mTaskDetailView;
+    private final BikeDetailContract.View mTaskDetailView;
 
     @Nullable
     private String mTaskId;
 
-    public TaskDetailPresenter(@Nullable String taskId,
-                               @NonNull TasksRepository tasksRepository,
-                               @NonNull TaskDetailContract.View taskDetailView) {
+    public BikeDetailPresenter(@Nullable String taskId,
+                               @NonNull BikesRepository bikesRepository,
+                               @NonNull BikeDetailContract.View taskDetailView) {
         mTaskId = taskId;
-        mTasksRepository = checkNotNull(tasksRepository, "tasksRepository cannot be null!");
+        mBikesRepository = checkNotNull(bikesRepository, "bikesRepository cannot be null!");
         mTaskDetailView = checkNotNull(taskDetailView, "taskDetailView cannot be null!");
 
         mTaskDetailView.setPresenter(this);
@@ -61,30 +61,30 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
         }
 
         mTaskDetailView.setLoadingIndicator(true);
-        mTasksRepository.getTask(mTaskId, new TasksDataSource.GetTaskCallback() {
-            @Override
-            public void onTaskLoaded(Bike bike) {
-                // The view may not be able to handle UI updates anymore
-                if (!mTaskDetailView.isActive()) {
-                    return;
-                }
-                mTaskDetailView.setLoadingIndicator(false);
-                if (null == bike) {
-                    mTaskDetailView.showMissingTask();
-                } else {
-                    showTask(bike);
-                }
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                // The view may not be able to handle UI updates anymore
-                if (!mTaskDetailView.isActive()) {
-                    return;
-                }
-                mTaskDetailView.showMissingTask();
-            }
-        });
+//        mBikesRepository.getTask(mTaskId, new BikesDataSource.GetBikeCallback() {
+//            @Override
+//            public void onTaskLoaded(Bike bike) {
+//                // The view may not be able to handle UI updates anymore
+//                if (!mTaskDetailView.isActive()) {
+//                    return;
+//                }
+//                mTaskDetailView.setLoadingIndicator(false);
+//                if (null == bike) {
+//                    mTaskDetailView.showMissingTask();
+//                } else {
+//                    showTask(bike);
+//                }
+//            }
+//
+//            @Override
+//            public void onDataNotAvailable() {
+//                // The view may not be able to handle UI updates anymore
+//                if (!mTaskDetailView.isActive()) {
+//                    return;
+//                }
+//                mTaskDetailView.showMissingTask();
+//            }
+//        });
     }
 
     @Override
@@ -102,7 +102,7 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
             mTaskDetailView.showMissingTask();
             return;
         }
-        mTasksRepository.deleteTask(mTaskId);
+//        mBikesRepository.deleteTask(mTaskId);
         mTaskDetailView.showTaskDeleted();
     }
 
@@ -112,7 +112,7 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
             mTaskDetailView.showMissingTask();
             return;
         }
-        mTasksRepository.completeTask(mTaskId);
+//        mBikesRepository.completeTask(mTaskId);
         mTaskDetailView.showTaskMarkedComplete();
     }
 
@@ -122,7 +122,7 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
             mTaskDetailView.showMissingTask();
             return;
         }
-        mTasksRepository.activateTask(mTaskId);
+//        mBikesRepository.activateTask(mTaskId);
         mTaskDetailView.showTaskMarkedActive();
     }
 

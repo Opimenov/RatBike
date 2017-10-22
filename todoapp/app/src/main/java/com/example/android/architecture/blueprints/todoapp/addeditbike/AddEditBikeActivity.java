@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.addedittask;
+package com.example.android.architecture.blueprints.todoapp.addeditbike;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

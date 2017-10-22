@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.addedittask;
+package com.example.android.architecture.blueprints.todoapp.addeditbike;
 
 import com.example.android.architecture.blueprints.todoapp.data.Bike;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
+import com.example.android.architecture.blueprints.todoapp.data.source.BikesRepository;
+import com.example.android.architecture.blueprints.todoapp.data.source.BikesDataSource;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +40,7 @@ import static org.mockito.Mockito.when;
 public class AddEditBikePresenterTest {
 
     @Mock
-    private TasksRepository mTasksRepository;
+    private BikesRepository mBikesRepository;
 
     @Mock
     private AddEditBikeContract.View mAddEditTaskView;
@@ -50,7 +50,7 @@ public class AddEditBikePresenterTest {
      * perform further actions or assertions on them.
      */
     @Captor
-    private ArgumentCaptor<TasksDataSource.GetTaskCallback> mGetTaskCallbackCaptor;
+    private ArgumentCaptor<BikesDataSource.GetBikeCallback> mGetTaskCallbackCaptor;
 
     private AddEditBikePresenter mAddEditBikePresenter;
 
@@ -68,7 +68,7 @@ public class AddEditBikePresenterTest {
     public void createPresenter_setsThePresenterToView(){
         // Get a reference to the class under test
         mAddEditBikePresenter = new AddEditBikePresenter(
-                null, mTasksRepository, mAddEditTaskView, true);
+                null, mBikesRepository, mAddEditTaskView, true);
 
         // Then the presenter is set to the view
         verify(mAddEditTaskView).setPresenter(mAddEditBikePresenter);
@@ -78,13 +78,13 @@ public class AddEditBikePresenterTest {
     public void saveNewTaskToRepository_showsSuccessMessageUi() {
         // Get a reference to the class under test
         mAddEditBikePresenter = new AddEditBikePresenter(
-                null, mTasksRepository, mAddEditTaskView, true);
+                null, mBikesRepository, mAddEditTaskView, true);
 
         // When the presenter is asked to save a task
         mAddEditBikePresenter.saveTask("New Bike Title", "Some Bike Description");
 
         // Then a task is saved in the repository and the view updated
-        verify(mTasksRepository).saveTask(any(Bike.class)); // saved to the model
+        verify(mBikesRepository).saveTask(any(Bike.class)); // saved to the model
         verify(mAddEditTaskView).showBikesList(); // shown in the UI
     }
 
@@ -92,7 +92,7 @@ public class AddEditBikePresenterTest {
     public void saveTask_emptyTaskShowsErrorUi() {
         // Get a reference to the class under test
         mAddEditBikePresenter = new AddEditBikePresenter(
-                null, mTasksRepository, mAddEditTaskView, true);
+                null, mBikesRepository, mAddEditTaskView, true);
 
         // When the presenter is asked to save an empty task
         mAddEditBikePresenter.saveTask("", "");
@@ -105,13 +105,13 @@ public class AddEditBikePresenterTest {
     public void saveExistingTaskToRepository_showsSuccessMessageUi() {
         // Get a reference to the class under test
         mAddEditBikePresenter = new AddEditBikePresenter(
-                "1", mTasksRepository, mAddEditTaskView, true);
+                "1", mBikesRepository, mAddEditTaskView, true);
 
         // When the presenter is asked to save an existing task
         mAddEditBikePresenter.saveTask("Existing Bike Title", "Some Bike Description");
 
         // Then a task is saved in the repository and the view updated
-        verify(mTasksRepository).saveTask(any(Bike.class)); // saved to the model
+        verify(mBikesRepository).saveTask(any(Bike.class)); // saved to the model
         verify(mAddEditTaskView).showBikesList(); // shown in the UI
     }
 
@@ -120,13 +120,13 @@ public class AddEditBikePresenterTest {
         Bike testBike = new Bike("TITLE", "DESCRIPTION");
         // Get a reference to the class under test
         mAddEditBikePresenter = new AddEditBikePresenter(testBike.getId(),
-                mTasksRepository, mAddEditTaskView, true);
+                mBikesRepository, mAddEditTaskView, true);
 
         // When the presenter is asked to populate an existing task
         mAddEditBikePresenter.populateTask();
 
         // Then the task repository is queried and the view updated
-        verify(mTasksRepository).getTask(eq(testBike.getId()), mGetTaskCallbackCaptor.capture());
+        verify(mBikesRepository).getTask(eq(testBike.getId()), mGetTaskCallbackCaptor.capture());
         assertThat(mAddEditBikePresenter.isDataMissing(), is(true));
 
         // Simulate callback

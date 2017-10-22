@@ -1,20 +1,4 @@
-/*
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.example.android.architecture.blueprints.todoapp.taskdetail;
+package com.example.android.architecture.blueprints.todoapp.bikedetail;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -35,16 +19,16 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditBikeActivity;
-import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditBikeFragment;
+import com.example.android.architecture.blueprints.todoapp.addeditbike.AddEditBikeActivity;
+import com.example.android.architecture.blueprints.todoapp.addeditbike.AddEditBikeFragment;
 import com.google.common.base.Preconditions;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Main UI for the task detail screen.
+ * Main UI for the bike detail screen.
  */
-public class TaskDetailFragment extends Fragment implements TaskDetailContract.View {
+public class BikeDetailFragment extends Fragment implements BikeDetailContract.View {
 
     @NonNull
     private static final String ARGUMENT_TASK_ID = "TASK_ID";
@@ -52,7 +36,7 @@ public class TaskDetailFragment extends Fragment implements TaskDetailContract.V
     @NonNull
     private static final int REQUEST_EDIT_TASK = 1;
 
-    private TaskDetailContract.Presenter mPresenter;
+    private BikeDetailContract.Presenter mPresenter;
 
     private TextView mDetailTitle;
 
@@ -60,10 +44,10 @@ public class TaskDetailFragment extends Fragment implements TaskDetailContract.V
 
     private CheckBox mDetailCompleteStatus;
 
-    public static TaskDetailFragment newInstance(@Nullable String taskId) {
+    public static BikeDetailFragment newInstance(@Nullable String taskId) {
         Bundle arguments = new Bundle();
         arguments.putString(ARGUMENT_TASK_ID, taskId);
-        TaskDetailFragment fragment = new TaskDetailFragment();
+        BikeDetailFragment fragment = new BikeDetailFragment();
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -86,7 +70,7 @@ public class TaskDetailFragment extends Fragment implements TaskDetailContract.V
 
         // Set up floating action button
         FloatingActionButton fab =
-                (FloatingActionButton) getActivity().findViewById(R.id.fab_edit_task);
+                (FloatingActionButton) getActivity().findViewById(R.id.fab_edit_bike);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +83,7 @@ public class TaskDetailFragment extends Fragment implements TaskDetailContract.V
     }
 
     @Override
-    public void setPresenter(@NonNull TaskDetailContract.Presenter presenter) {
+    public void setPresenter(@NonNull BikeDetailContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
 

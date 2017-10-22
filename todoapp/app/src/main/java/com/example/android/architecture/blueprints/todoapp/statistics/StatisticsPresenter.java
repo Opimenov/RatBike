@@ -19,8 +19,8 @@ package com.example.android.architecture.blueprints.todoapp.statistics;
 import android.support.annotation.NonNull;
 
 import com.example.android.architecture.blueprints.todoapp.data.Bike;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
+import com.example.android.architecture.blueprints.todoapp.data.source.BikesDataSource;
+import com.example.android.architecture.blueprints.todoapp.data.source.BikesRepository;
 import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource;
 
 import java.util.List;
@@ -33,13 +33,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class StatisticsPresenter implements StatisticsContract.Presenter {
 
-    private final TasksRepository mTasksRepository;
+    private final BikesRepository mBikesRepository;
 
     private final StatisticsContract.View mStatisticsView;
 
-    public StatisticsPresenter(@NonNull TasksRepository tasksRepository,
+    public StatisticsPresenter(@NonNull BikesRepository bikesRepository,
                                @NonNull StatisticsContract.View statisticsView) {
-        mTasksRepository = checkNotNull(tasksRepository, "tasksRepository cannot be null");
+        mBikesRepository = checkNotNull(bikesRepository, "bikesRepository cannot be null");
         mStatisticsView = checkNotNull(statisticsView, "StatisticsView cannot be null!");
 
         mStatisticsView.setPresenter(this);
@@ -57,9 +57,9 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
         // that the app is busy until the response is handled.
         EspressoIdlingResource.increment(); // App is busy until further notice
 
-        mTasksRepository.getTasks(new TasksDataSource.LoadTasksCallback() {
+        mBikesRepository.getTasks(new BikesDataSource.LoadBikesCallback() {
             @Override
-            public void onTasksLoaded(List<Bike> bikes) {
+            public void onBikesLoaded(List<Bike> bikes) {
                 int activeTasks = 0;
                 int completedTasks = 0;
 

@@ -17,8 +17,8 @@
 package com.example.android.architecture.blueprints.todoapp.statistics;
 
 import com.example.android.architecture.blueprints.todoapp.data.Bike;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
+import com.example.android.architecture.blueprints.todoapp.data.source.BikesDataSource;
+import com.example.android.architecture.blueprints.todoapp.data.source.BikesRepository;
 import com.google.common.collect.Lists;
 
 import org.junit.Before;
@@ -41,7 +41,7 @@ public class StatisticsPresenterTest {
     private static List<Bike> BIKES;
 
     @Mock
-    private TasksRepository mTasksRepository;
+    private BikesRepository mBikesRepository;
 
     @Mock
     private StatisticsContract.View mStatisticsView;
@@ -51,7 +51,7 @@ public class StatisticsPresenterTest {
      * perform further actions or assertions on them.
      */
     @Captor
-    private ArgumentCaptor<TasksDataSource.LoadTasksCallback> mLoadTasksCallbackCaptor;
+    private ArgumentCaptor<BikesDataSource.LoadBikesCallback> mLoadTasksCallbackCaptor;
 
 
     private StatisticsPresenter mStatisticsPresenter;
@@ -63,7 +63,7 @@ public class StatisticsPresenterTest {
         MockitoAnnotations.initMocks(this);
 
         // Get a reference to the class under test
-        mStatisticsPresenter = new StatisticsPresenter(mTasksRepository, mStatisticsView);
+        mStatisticsPresenter = new StatisticsPresenter(mBikesRepository, mStatisticsView);
 
         // The presenter won't update the view unless it's active.
         when(mStatisticsView.isActive()).thenReturn(true);
@@ -76,7 +76,7 @@ public class StatisticsPresenterTest {
     @Test
     public void createPresenter_setsThePresenterToView() {
         // Get a reference to the class under test
-        mStatisticsPresenter = new StatisticsPresenter(mTasksRepository, mStatisticsView);
+        mStatisticsPresenter = new StatisticsPresenter(mBikesRepository, mStatisticsView);
 
         // Then the presenter is set to the view
         verify(mStatisticsView).setPresenter(mStatisticsPresenter);
@@ -94,8 +94,8 @@ public class StatisticsPresenterTest {
         verify(mStatisticsView).setProgressIndicator(true);
 
         // Callback is captured and invoked with stubbed tasks
-        verify(mTasksRepository).getTasks(mLoadTasksCallbackCaptor.capture());
-        mLoadTasksCallbackCaptor.getValue().onTasksLoaded(BIKES);
+        verify(mBikesRepository).getTasks(mLoadTasksCallbackCaptor.capture());
+        mLoadTasksCallbackCaptor.getValue().onBikesLoaded(BIKES);
 
         // Then progress indicator is hidden and correct data is passed on to the view
         verify(mStatisticsView).setProgressIndicator(false);
@@ -113,8 +113,8 @@ public class StatisticsPresenterTest {
         verify(mStatisticsView).setProgressIndicator(true);
 
         // Callback is captured and invoked with stubbed tasks
-        verify(mTasksRepository).getTasks(mLoadTasksCallbackCaptor.capture());
-        mLoadTasksCallbackCaptor.getValue().onTasksLoaded(BIKES);
+        verify(mBikesRepository).getTasks(mLoadTasksCallbackCaptor.capture());
+        mLoadTasksCallbackCaptor.getValue().onBikesLoaded(BIKES);
 
         // Then progress indicator is hidden and correct data is passed on to the view
         verify(mStatisticsView).setProgressIndicator(false);
@@ -127,7 +127,7 @@ public class StatisticsPresenterTest {
         mStatisticsPresenter.start();
 
         // And tasks data isn't available
-        verify(mTasksRepository).getTasks(mLoadTasksCallbackCaptor.capture());
+        verify(mBikesRepository).getTasks(mLoadTasksCallbackCaptor.capture());
         mLoadTasksCallbackCaptor.getValue().onDataNotAvailable();
 
         // Then an error message is shown

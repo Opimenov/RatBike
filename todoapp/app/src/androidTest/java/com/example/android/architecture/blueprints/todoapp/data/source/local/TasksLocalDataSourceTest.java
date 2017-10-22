@@ -21,7 +21,7 @@ import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.example.android.architecture.blueprints.todoapp.data.Bike;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
+import com.example.android.architecture.blueprints.todoapp.data.source.BikesDataSource;
 
 import org.junit.After;
 import org.junit.Before;
@@ -41,7 +41,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 /**
- * Integration test for the {@link TasksDataSource}, which uses the {@link TasksDbHelper}.
+ * Integration test for the {@link BikesDataSource}, which uses the {@link TasksDbHelper}.
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -53,11 +53,11 @@ public class TasksLocalDataSourceTest {
 
     private final static String TITLE3 = "title3";
 
-    private TasksLocalDataSource mLocalDataSource;
+    private BikesLocalDataSource mLocalDataSource;
 
     @Before
     public void setup() {
-        mLocalDataSource = TasksLocalDataSource.getInstance(
+        mLocalDataSource = BikesLocalDataSource.getInstance(
                 InstrumentationRegistry.getTargetContext());
     }
 
@@ -80,7 +80,7 @@ public class TasksLocalDataSourceTest {
         mLocalDataSource.saveTask(newBike);
 
         // Then the task can be retrieved from the persistent repository
-        mLocalDataSource.getTask(newBike.getId(), new TasksDataSource.GetTaskCallback() {
+        mLocalDataSource.getTask(newBike.getId(), new BikesDataSource.GetBikeCallback() {
             @Override
             public void onTaskLoaded(Bike bike) {
                 assertThat(bike, is(newBike));
@@ -96,7 +96,7 @@ public class TasksLocalDataSourceTest {
     @Test
     public void completeTask_retrievedTaskIsComplete() {
         // Initialize mock for the callback.
-        TasksDataSource.GetTaskCallback callback = mock(TasksDataSource.GetTaskCallback.class);
+        BikesDataSource.GetBikeCallback callback = mock(BikesDataSource.GetBikeCallback.class);
         // Given a new task in the persistent repository
         final Bike newBike = new Bike(TITLE, "");
         mLocalDataSource.saveTask(newBike);
@@ -105,7 +105,7 @@ public class TasksLocalDataSourceTest {
         mLocalDataSource.completeTask(newBike);
 
         // Then the task can be retrieved from the persistent repository and is complete
-        mLocalDataSource.getTask(newBike.getId(), new TasksDataSource.GetTaskCallback() {
+        mLocalDataSource.getTask(newBike.getId(), new BikesDataSource.GetBikeCallback() {
             @Override
             public void onTaskLoaded(Bike bike) {
                 assertThat(bike, is(newBike));
@@ -122,7 +122,7 @@ public class TasksLocalDataSourceTest {
     @Test
     public void activateTask_retrievedTaskIsActive() {
         // Initialize mock for the callback.
-        TasksDataSource.GetTaskCallback callback = mock(TasksDataSource.GetTaskCallback.class);
+        BikesDataSource.GetBikeCallback callback = mock(BikesDataSource.GetBikeCallback.class);
 
         // Given a new completed task in the persistent repository
         final Bike newBike = new Bike(TITLE, "");
@@ -144,9 +144,9 @@ public class TasksLocalDataSourceTest {
     @Test
     public void clearCompletedTask_taskNotRetrievable() {
         // Initialize mocks for the callbacks.
-        TasksDataSource.GetTaskCallback callback1 = mock(TasksDataSource.GetTaskCallback.class);
-        TasksDataSource.GetTaskCallback callback2 = mock(TasksDataSource.GetTaskCallback.class);
-        TasksDataSource.GetTaskCallback callback3 = mock(TasksDataSource.GetTaskCallback.class);
+        BikesDataSource.GetBikeCallback callback1 = mock(BikesDataSource.GetBikeCallback.class);
+        BikesDataSource.GetBikeCallback callback2 = mock(BikesDataSource.GetBikeCallback.class);
+        BikesDataSource.GetBikeCallback callback3 = mock(BikesDataSource.GetBikeCallback.class);
 
         // Given 2 new completed tasks and 1 active task in the persistent repository
         final Bike newBike1 = new Bike(TITLE, "");
@@ -183,7 +183,7 @@ public class TasksLocalDataSourceTest {
         // Given a new task in the persistent repository and a mocked callback
         Bike newBike = new Bike(TITLE, "");
         mLocalDataSource.saveTask(newBike);
-        TasksDataSource.LoadTasksCallback callback = mock(TasksDataSource.LoadTasksCallback.class);
+        BikesDataSource.LoadBikesCallback callback = mock(BikesDataSource.LoadBikesCallback.class);
 
         // When all tasks are deleted
         mLocalDataSource.deleteAllTasks();
@@ -192,7 +192,7 @@ public class TasksLocalDataSourceTest {
         mLocalDataSource.getTasks(callback);
 
         verify(callback).onDataNotAvailable();
-        verify(callback, never()).onTasksLoaded(anyList());
+        verify(callback, never()).onBikesLoaded(anyList());
     }
 
     @Test
@@ -204,9 +204,9 @@ public class TasksLocalDataSourceTest {
         mLocalDataSource.saveTask(newBike2);
 
         // Then the tasks can be retrieved from the persistent repository
-        mLocalDataSource.getTasks(new TasksDataSource.LoadTasksCallback() {
+        mLocalDataSource.getTasks(new BikesDataSource.LoadBikesCallback() {
             @Override
-            public void onTasksLoaded(List<Bike> bikes) {
+            public void onBikesLoaded(List<Bike> bikes) {
                 assertNotNull(bikes);
                 assertTrue(bikes.size() >= 2);
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.addedittask;
+package com.example.android.architecture.blueprints.todoapp.addeditbike;
 
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
@@ -22,9 +22,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.android.architecture.blueprints.todoapp.data.Bike;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
-
-import java.util.ArrayList;
+import com.example.android.architecture.blueprints.todoapp.data.source.BikesDataSource;
 
 import static android.content.ContentValues.TAG;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -34,37 +32,35 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * the UI as required.
  */
 public class AddEditBikePresenter implements AddEditBikeContract.Presenter,
-        TasksDataSource.GetTaskCallback {
-    //TODO: remove this internal saving and save it in database
-    ArrayList<Bike> listOfAvailableBikes= new ArrayList<>();
+        BikesDataSource.GetBikeCallback {
+
 
     @NonNull
-    private final TasksDataSource mTasksRepository;
+    private final BikesDataSource mBikesRepository;
 
     @NonNull
-    private final AddEditBikeContract.View mAddTaskView;
+    private final AddEditBikeContract.View mAddBikeView;
 
     @Nullable
-    private String mTaskId;
+    private String mBikeId;
 
     private boolean mIsDataMissing;
 
     /**
      * Creates a presenter for the add/edit view.
      *
-     * @param taskId ID of the task to edit or null for a new task
-     * @param tasksRepository a repository of data for tasks
-     * @param addTaskView the add/edit view
+     * @param taskId                 ID of the task to edit or null for a new task
+     * @param tasksRepository        a repository of data for tasks
+     * @param addTaskView            the add/edit view
      * @param shouldLoadDataFromRepo whether data needs to be loaded or not (for config changes)
      */
-    public AddEditBikePresenter(@Nullable String taskId, @NonNull TasksDataSource tasksRepository,
+    public AddEditBikePresenter(@Nullable String taskId, @NonNull BikesDataSource tasksRepository,
                                 @NonNull AddEditBikeContract.View addTaskView, boolean shouldLoadDataFromRepo) {
-        mTaskId = taskId;
-        mTasksRepository = checkNotNull(tasksRepository);
-        mAddTaskView = checkNotNull(addTaskView);
+        mBikeId = taskId;
+        mBikesRepository = checkNotNull(tasksRepository);
+        mAddBikeView = checkNotNull(addTaskView);
         mIsDataMissing = shouldLoadDataFromRepo;
-
-        mAddTaskView.setPresenter(this);
+        mAddBikeView.setPresenter(this);
     }
 
     @Override
@@ -82,8 +78,10 @@ public class AddEditBikePresenter implements AddEditBikeContract.Presenter,
             boolean[] parts,
             boolean complete) {
         //TODO: fix not use internal
-        listOfAvailableBikes.add(new Bike(image,type,parts,location,complete));
-        Log.i(TAG, "saveBike: available bikes number"+ listOfAvailableBikes.size());
+        mBikesRepository.addBike(new Bike(image, type, parts, location, complete));
+        mAddBikeView.showBikesList();
+
+
 //        if (isNewTask()) {
 //            createTask(title, description);
 //        } else {
@@ -96,16 +94,16 @@ public class AddEditBikePresenter implements AddEditBikeContract.Presenter,
         if (isNewTask()) {
             throw new RuntimeException("populateTask() was called but task is new.");
         }
-        mTasksRepository.getTask(mTaskId, this);
+        mBikesRepository.getTask(mBikeId, this);
     }
 
     @Override
     public void onTaskLoaded(Bike bike) {
         //TODO: fix
         // The view may not be able to handle UI updates anymore
-//        if (mAddTaskView.isActive()) {
-//            mAddTaskView.setTitle(bike.getTitle());
-//            mAddTaskView.setDescription(bike.getDescription());
+//        if (mAddBikeView.isActive()) {
+//            mAddBikeView.setTitle(bike.getTitle());
+//            mAddBikeView.setDescription(bike.getDescription());
 //        }
 //        mIsDataMissing = false;
     }
@@ -113,8 +111,8 @@ public class AddEditBikePresenter implements AddEditBikeContract.Presenter,
     @Override
     public void onDataNotAvailable() {
         // The view may not be able to handle UI updates anymore
-        if (mAddTaskView.isComplete()) {
-            mAddTaskView.showNoBikeFoundError();
+        if (mAddBikeView.isComplete()) {
+            mAddBikeView.showNoBikeFoundError();
         }
     }
 
@@ -124,17 +122,17 @@ public class AddEditBikePresenter implements AddEditBikeContract.Presenter,
     }
 
     private boolean isNewTask() {
-        return mTaskId == null;
+        return mBikeId == null;
     }
 
     //TODO: fix
     private void createBike(String title, String description) {
 //        Bike newBike = new Bike(title, description);
 //        if (newBike.isEmpty()) {
-//            mAddTaskView.showNoBikeFoundError();
+//            mAddBikeView.showNoBikeFoundError();
 //        } else {
-//            mTasksRepository.saveTask(newBike);
-//            mAddTaskView.showBikesList();
+//            mBikesRepository.saveTask(newBike);
+//            mAddBikeView.showBikesList();
 //        }
     }
 
@@ -143,7 +141,7 @@ public class AddEditBikePresenter implements AddEditBikeContract.Presenter,
 //        if (isNewTask()) {
 //            throw new RuntimeException("updateTask() was called but task is new.");
 //        }
-//        mTasksRepository.saveTask(new Bike(title, description, mTaskId));
-//        mAddTaskView.showBikesList(); // After an edit, go back to the list.
+//        mBikesRepository.saveTask(new Bike(title, description, mBikeId));
+//        mAddBikeView.showBikesList(); // After an edit, go back to the list.
     }
 }

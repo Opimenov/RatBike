@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.taskdetail;
+package com.example.android.architecture.blueprints.todoapp.addeditbike;
+
+import android.graphics.Bitmap;
 
 import com.example.android.architecture.blueprints.todoapp.BasePresenter;
 import com.example.android.architecture.blueprints.todoapp.BaseView;
@@ -22,43 +24,32 @@ import com.example.android.architecture.blueprints.todoapp.BaseView;
 /**
  * This specifies the contract between the view and the presenter.
  */
-public interface TaskDetailContract {
+public interface AddEditBikeContract {
 
     interface View extends BaseView<Presenter> {
 
-        void setLoadingIndicator(boolean active);
+        void showNoBikeFoundError();
 
-        void showMissingTask();
+        void showBikesList();
 
-        void hideTitle();
+        void setLocation(String location);
 
-        void showTitle(String title);
+        void setPicture(Bitmap image);
 
-        void hideDescription();
-
-        void showDescription(String description);
-
-        void showCompletionStatus(boolean complete);
-
-        void showEditTask(String taskId);
-
-        void showTaskDeleted();
-
-        void showTaskMarkedComplete();
-
-        void showTaskMarkedActive();
-
-        boolean isActive();
+        boolean isComplete();
     }
 
     interface Presenter extends BasePresenter {
 
-        void editTask();
+        void saveBike(
+                Bitmap image,
+                String type,
+                String location,
+                boolean[] parts,
+                boolean complete);
 
-        void deleteTask();
+        void populateBike();
 
-        void completeTask();
-
-        void activateTask();
+        boolean isDataMissing();
     }
 }

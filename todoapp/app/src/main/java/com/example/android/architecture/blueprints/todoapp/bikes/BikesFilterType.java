@@ -19,11 +19,11 @@ package com.example.android.architecture.blueprints.todoapp.bikes;
 /**
  * Used with the filter spinner in the tasks list.
  */
-public enum TasksFilterType {
+public enum BikesFilterType {
     /**
      * Do not filter tasks.
      */
-    ALL_TASKS,
+    ALL_BIKES,
 
     /**
      * Filters only the active (not completed yet) tasks.
